@@ -29,7 +29,7 @@ FROM maven:3.8.5-openjdk-17 AS build
  COPY src ./src
 RUN mvn clean package
 
-FROM openjdk:17.0.1-jdk-slim
+FROM openjdk:17-jdk-slim
 COPY --from=build /target/juzzIt_education_project-0.0.1-SNAPSHOT.jar juzzIt.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","juzzIt.jar"]

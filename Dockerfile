@@ -1,8 +1,16 @@
-FROM maven:3.6.3-jdk-8 AS build
-COPY . .
-RUN mvn clean package -DskipTests
+#
+# Build stage
+#
+FROM maven:3.11.0-openjdk-17 AS build
+WORKDIR /app
+COPY . /app/
+RUN mvn clean package
 
-FROM openjdk:18-ea-8-jdk-slim
-COPY --from=build /target/juzzIt_education_project-0.0.1-SNAPSHOT.jar juzzIt_education_project.jar
+#
+# Package stage
+#
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","juzzIt_education_project.jar"]   
+ENTRYPOINT ["java","-jar","app.jar"]

@@ -1,16 +1,15 @@
-#
-# Build stage
-#
-FROM  maven:3.2.0-jdk-8 AS build
-WORKDIR /app
-COPY . /app/
-RUN mvn clean package
-
-#
-# Package stage
-#
+# Use the official OpenJDK 8 image as the base image
 FROM openjdk:8-jdk-alpine
+
+# Set the working directory in the container
 WORKDIR /app
-COPY --from=build /app/target/*.jar /app/app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+
+# Copy your Maven POM and source code
+COPY pom.xml .
+COPY src ./src
+
+# Build the application using Maven
+RUN ./mvnw clean package
+
+# Define the command to run the Spring Boot application
+CMD ["java", "-jar", "target/your-app.jar"]

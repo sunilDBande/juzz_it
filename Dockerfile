@@ -1,5 +1,5 @@
-# First stage: Build the application
-FROM openjdk:8-jdk-alpine AS build
+# Use the official Maven image as the build environment
+FROM maven:3.8.4-openjdk-17 AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -9,16 +9,16 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application using Maven
-RUN ./mvnw clean package
+RUN mvn clean package
 
 # Second stage: Create a lightweight image for running the application
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-jre-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
 # Copy the compiled JAR file from the build stage
-COPY --from=build /app/target/juzzIt_education_project.jar /app/juzzIt_education_project.jar
+COPY --from=build /app/target/juzzIt.jar ./juzzIt.jar
 
 # Define the command to run the Spring Boot application
-CMD ["java", "-jar", "juzzIt_education_project.jar"]
+CMD ["java", "-jar", "juzzIt.jar"]

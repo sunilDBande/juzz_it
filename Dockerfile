@@ -1,7 +1,7 @@
 #
 # Build stage
 #
-FROM maven:3.11.0-openjdk-17 AS build
+FROM maven:2.5.4-openjdk-17 AS build
 WORKDIR /app
 COPY . /app/
 RUN mvn clean package

@@ -24,7 +24,7 @@ public class CourseTypeProjects implements Serializable{
 	private String projectDesc;
 	
 	
-	@ManyToOne(fetch = FetchType.EAGER.LAZY)
+	@ManyToOne
 	// @JsonIgnore
 	@JoinColumn(name="COURSE_TYPE_ID")
 	private CourseType courseType;

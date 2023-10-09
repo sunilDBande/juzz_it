@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application using Maven
-RUN mvn clean package
+RUN ./mvnw clean package
 
 # Copy the compiled JAR file into the container
 COPY target/juzzIt_education_project.jar .

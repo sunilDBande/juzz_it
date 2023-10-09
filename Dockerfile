@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Second stage: Create a lightweight image for running the application
-FROM openjdk:17-jre-slim
+FROM openjdk:17.0.1-jdk-slim
 
 # Set the working directory in the container
 WORKDIR /app

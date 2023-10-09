@@ -9,7 +9,10 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application using Maven
-RUN ./mvnw clean package
+RUN mvn clean package
+
+# Copy the compiled JAR file into the container
+COPY target/juzzIt_education_project.jar .
 
 # Define the command to run the Spring Boot application
-CMD ["java", "-jar", "target/your-app.jar"]
+CMD ["java", "-jar", "juzzIt_education_project.jar"]

@@ -1,5 +1,5 @@
 # Use the official OpenJDK 8 image as the base image
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jdk-alpine AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,7 +12,7 @@ COPY src ./src
 RUN ./mvnw clean package
 
 # Copy the compiled JAR file into the container
-COPY target/juzzIt_education_project.jar .
+COPY --from=build /app/target/juzzIt_education_project.jar /app/juzzIt_education_project.jar
 
 # Define the command to run the Spring Boot application
 CMD ["java", "-jar", "juzzIt_education_project.jar"]

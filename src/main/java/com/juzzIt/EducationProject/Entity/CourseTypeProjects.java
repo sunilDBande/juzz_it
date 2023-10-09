@@ -2,7 +2,7 @@ package com.juzzIt.EducationProject.Entity;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +25,7 @@ public class CourseTypeProjects implements Serializable{
 	
 	
 	@ManyToOne(fetch = FetchType.EAGER.LAZY)
-	@JsonIgnore
+	// @JsonIgnore
 	@JoinColumn(name="COURSE_TYPE_ID")
 	private CourseType courseType;
 

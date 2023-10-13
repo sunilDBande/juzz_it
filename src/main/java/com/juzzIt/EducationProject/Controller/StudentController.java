@@ -22,7 +22,7 @@ import com.juzzIt.EducationProject.ServiceInterface.StudentServiceInterface;
 
 @RestController
 @RequestMapping("std")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class StudentController {
   @Autowired
 	StudentServiceInterface studentService;

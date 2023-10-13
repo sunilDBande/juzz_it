@@ -33,7 +33,7 @@ import com.juzzIt.EducationProject.ServiceInterface.TopicServiceInterface;
 
 @RestController
 @RequestMapping("/cur")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class CourceController {
 	
 

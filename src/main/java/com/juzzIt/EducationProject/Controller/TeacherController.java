@@ -20,7 +20,7 @@ import com.juzzIt.EducationProject.ServiceInterface.TeacherServiceInterface;
 
 @RestController
 @RequestMapping("tch")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class TeacherController {
 	
 	

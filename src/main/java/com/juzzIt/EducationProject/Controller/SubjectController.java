@@ -24,7 +24,7 @@ import com.juzzIt.EducationProject.ServiceInterface.SubjectServiceInterface;
 
 @RestController
 @RequestMapping("/sub")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class SubjectController {
 
 	

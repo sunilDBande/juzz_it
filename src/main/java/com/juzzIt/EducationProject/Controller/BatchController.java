@@ -28,7 +28,7 @@ import com.juzzIt.EducationProject.Services.BatchCoursePlacementsServiceImplemen
 
 @RestController
 @RequestMapping("/bch")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class BatchController {
 	
 	@Autowired

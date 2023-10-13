@@ -22,7 +22,7 @@ import com.juzzIt.EducationProject.ServiceInterface.StudentCourseEnrollRequestSe
 
 @RestController
 @RequestMapping("/enroll")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class EnrollRequestController {
 
 	@Autowired

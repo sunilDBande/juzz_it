@@ -1,4 +1,4 @@
-package com.juzzIt.EducationProject.Entity;
+	package com.juzzIt.EducationProject.Entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -37,8 +37,15 @@ public class Student implements Serializable{
 	@Column(name = "Student_Enroll")
 	private String student_Enroll;
 	
+	
+	@Column (name="USER_ROLE")
+    private String role;
+	
 	@OneToMany(mappedBy = "student")
 	private List<BatchCourseStudent> batchCourseStudent;
+	
+	@OneToMany(mappedBy = "student")
+	private List<RecordedStudent> recordedStudent;
 	
 	
 	
@@ -46,13 +53,12 @@ public class Student implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+
+
 
 	public Student(String studentId, String studentName, String studentEmail, String studentPassword,
 			long studentMobileNumber, String studentAddress, LocalDateTime createdDate, LocalDateTime updatedDate,
-			String student_Enroll, List<BatchCourseStudent> batchCourseStudent) {
+			String student_Enroll, String role, List<BatchCourseStudent> batchCourseStudent) {
 		super();
 		this.studentId = studentId;
 		this.studentName = studentName;
@@ -63,9 +69,105 @@ public class Student implements Serializable{
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
 		this.student_Enroll = student_Enroll;
+		this.role = role;
 		this.batchCourseStudent = batchCourseStudent;
 	}
 
+
+
+	public String getStudentId() {
+		return studentId;
+	}
+
+
+
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+
+
+
+	public String getStudentName() {
+		return studentName;
+	}
+
+
+
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+
+
+
+	public String getStudentEmail() {
+		return studentEmail;
+	}
+
+
+
+	public void setStudentEmail(String studentEmail) {
+		this.studentEmail = studentEmail;
+	}
+
+
+
+	public String getStudentPassword() {
+		return studentPassword;
+	}
+
+
+
+	public void setStudentPassword(String studentPassword) {
+		this.studentPassword = studentPassword;
+	}
+
+
+
+	public long getStudentMobileNumber() {
+		return studentMobileNumber;
+	}
+
+
+
+	public void setStudentMobileNumber(long studentMobileNumber) {
+		this.studentMobileNumber = studentMobileNumber;
+	}
+
+
+
+	public String getStudentAddress() {
+		return studentAddress;
+	}
+
+
+
+	public void setStudentAddress(String studentAddress) {
+		this.studentAddress = studentAddress;
+	}
+
+
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+
+	public LocalDateTime getUpdatedDate() {
+		return updatedDate;
+	}
+
+
+
+	public void setUpdatedDate(LocalDateTime updatedDate) {
+		this.updatedDate = updatedDate;
+	}
 
 
 
@@ -75,11 +177,21 @@ public class Student implements Serializable{
 
 
 
-
 	public void setStudent_Enroll(String student_Enroll) {
 		this.student_Enroll = student_Enroll;
 	}
 
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 
 
@@ -89,63 +201,9 @@ public class Student implements Serializable{
 
 
 
-
 	public void setBatchCourseStudent(List<BatchCourseStudent> batchCourseStudent) {
 		this.batchCourseStudent = batchCourseStudent;
 	}
-
-
-
-
-	public String getStudentId() {
-		return studentId;
-	}
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
-	}
-	public String getStudentName() {
-		return studentName;
-	}
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
-	public String getStudentEmail() {
-		return studentEmail;
-	}
-	public void setStudentEmail(String studentEmail) {
-		this.studentEmail = studentEmail;
-	}
-	public String getStudentPassword() {
-		return studentPassword;
-	}
-	public void setStudentPassword(String studentPassword) {
-		this.studentPassword = studentPassword;
-	}
-	public long getStudentMobileNumber() {
-		return studentMobileNumber;
-	}
-	public void setStudentMobileNumber(long studentMobileNumber) {
-		this.studentMobileNumber = studentMobileNumber;
-	}
-	public String getStudentAddress() {
-		return studentAddress;
-	}
-	public void setStudentAddress(String studentAddress) {
-		this.studentAddress = studentAddress;
-	}
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-	public LocalDateTime getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(LocalDateTime updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
 
 
 
@@ -154,11 +212,10 @@ public class Student implements Serializable{
 		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentEmail=" + studentEmail
 				+ ", studentPassword=" + studentPassword + ", studentMobileNumber=" + studentMobileNumber
 				+ ", studentAddress=" + studentAddress + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
-				+ ", student_Enroll=" + student_Enroll + ", batchCourseStudent=" + batchCourseStudent + "]";
+				+ ", student_Enroll=" + student_Enroll + ", role=" + role + ", batchCourseStudent=" + batchCourseStudent
+				+ "]";
 	}
-
-
 	
-
+	
 	
 }

@@ -37,6 +37,9 @@ public class StudentEnrollDetails implements Serializable{
 	@OneToOne(mappedBy = "studentEnrollDetails")
 	private BatchCourseStudent batchCourseStudent;
 	
+	@OneToOne(mappedBy = "studentEnrollDetails")
+	private RecordedStudent recordedStudent;
+	
 	
 
 	public StudentEnrollDetails() {

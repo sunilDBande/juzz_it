@@ -3,14 +3,17 @@ package com.juzzIt.EducationProject.Services;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.juzzIt.EducationProject.DaoInterface.TeacherDaoInterface;
 import com.juzzIt.EducationProject.Entity.Teacher;
 import com.juzzIt.EducationProject.Models.LogInData;
+import com.juzzIt.EducationProject.Models.LogInOrSignUpResponce;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.TeacherRepository;
 import com.juzzIt.EducationProject.ServiceInterface.TeacherServiceInterface;
@@ -34,8 +37,11 @@ public class TeacherServiceImplementation implements TeacherServiceInterface{
 	@Autowired
 	private EntityManager entityManager;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
-	public Responce addNewTeacher(HashMap<String, Object> teacher) {
+	public LogInOrSignUpResponce addNewTeacher(HashMap<String, Object> teacher) {
 		
 		return teacherDaoInterface.addNewTeacher(teacher);
 	   
@@ -46,7 +52,7 @@ public class TeacherServiceImplementation implements TeacherServiceInterface{
 		Responce responce=new Responce();
 		boolean isExists=teacherRepo.existsByTeacherEmail(logInData.getEmail());
 		if(isExists) {
-				Teacher teacher=teacherRepo.findByTeacherEmail(logInData.getEmail()).get();
+				Teacher teacher=teacherRepo.findByTeacherEmail(logInData.getEmail()).get(0);
 				
 				if(teacher.getTeacherPassword().equals(logInData.getPassword())) {
 					responce.setStatus(true);
@@ -68,13 +74,8 @@ public class TeacherServiceImplementation implements TeacherServiceInterface{
 
 	@Override
 	public Teacher getTeacherById(String teacherId) throws Exception {
-		Teacher teacher;
-		try {
-			teacher   =teacherRepo.findById(teacherId).get();
-		}catch (Exception e) {
-			throw new Exception("Getting problem while getting Teacher By Id");
-		}
-		return   teacher;
+		
+		return   teacherDaoInterface.getTeacherById(teacherId);
 	}
 
 	@Override
@@ -131,12 +132,8 @@ public class TeacherServiceImplementation implements TeacherServiceInterface{
 	}
 
 	@Override
-	public List<Teacher> getTeachers() {
-		try {
-			return 	teacherRepo.findAll();
-		}catch (Exception e) {
-			return null;
-		}
+	public List<Map<String, Object>> getTeachers() {
+		return teacherDaoInterface.getAllTeacher();
 		
 		
 	}
@@ -165,6 +162,12 @@ public class TeacherServiceImplementation implements TeacherServiceInterface{
 	public List<HashMap<String, Object>> getAllTeacherDetails(String teacherId) throws Exception {
 		// TODO Auto-generated method stub
 		 return teacherDaoInterface.getAllTeacherDetails(teacherId);
+	}
+
+	@Override
+	public Teacher getTeacherByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -58,6 +58,8 @@ public class BatchCourse implements Serializable{
 	
 	@OneToMany(mappedBy = "batchCourse", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<BatchCourseClassLinks> batchCourseClassLinks;
+	
+
 
 	public BatchCourse() {
 		super();

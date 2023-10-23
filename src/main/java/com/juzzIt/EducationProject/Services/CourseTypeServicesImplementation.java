@@ -21,6 +21,7 @@ import com.juzzIt.EducationProject.DaoInterface.CourseTypeProjectsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeToolsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.LessonDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.ModuleDaoInterface;
+import com.juzzIt.EducationProject.DaoInterface.ToolImageDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.TopicDaoInterface;
 import com.juzzIt.EducationProject.Entity.Course;
 import com.juzzIt.EducationProject.Entity.CourseType;
@@ -71,6 +72,9 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 	
 	@Autowired
 	private TopicDaoInterface topicDaoInterface;
+	
+	@Autowired
+	private ToolImageDaoInterface toolImageDaoInterface;
 	
 	@Override
 	public Responce addCourseType(String courseId, HashMap<String, Object> courseType) throws Exception {
@@ -202,6 +206,15 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 			map.put("course_Type_KeyHighLight", courseTypeKeyHighlightsDaoInterface.getAllKeyHighlightByCourseTypeId(courseTypeId));
 			map.put("course_Type_Projects", courseTypeProjectsDaoInterface.getAllProjectsByCourseTypeId(courseTypeId));
 			map.put("course_Type_Tools", courseTypeToolsDaoInterface.getAllToolsByCourseTypeId(courseTypeId));
+			
+			
+			 List<Map<String, Object>> allToolsByCourseType = courseTypeToolsDaoInterface.getAllToolsByCourseTypeId(courseTypeId);
+			 allToolsByCourseType.stream().map(tool->{
+				 return null;
+			 }).collect(Collectors.toList());
+			 
+			 
+			 
 			
 			List<Map<String, Object>> models = moduleDaoInterface.getAllModels(courseTypeId);
 			

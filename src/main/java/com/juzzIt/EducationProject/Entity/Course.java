@@ -6,7 +6,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -16,21 +15,19 @@ public class Course implements Serializable{
 	@Id
 	@Column(name="COURSE_ID")
 	private String courseId;
-	
 	@Column(name="COURSE_NAME")
 	private String courseName;
-	
 	@Column(name = "COURSE_ACTIVE")
 	private String courseActive;
-	
 	@Column(name="FUTURE_COURSE_STATUS")
 	private String futureCourseStatus;
-	
 	@Column(name="temp_delete")
 	private  String tempDelete;
-	
 	@OneToMany(mappedBy = "course" ,cascade = CascadeType.REMOVE)
 	private List<CourseType> courseType;
+	
+	@OneToMany(mappedBy = "course" ,cascade = CascadeType.REMOVE)
+	private List<CourseImage> courseImage;
 
 	public Course() {
 		super();

@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseClassLinksServiceServicesInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCoursePlacementsServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.BatchCourseRecordedVideoSubjectServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseStudentServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseSubjectServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.PlacementImageServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.RecordedSubjectVideoServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.SubBatchServiceInterface;
 import com.juzzIt.EducationProject.Services.BatchCoursePlacementsServiceImplementation;
 
@@ -38,6 +41,9 @@ public class BatchController {
 	private SubBatchServiceInterface subBatchServiceInterface;
 	
 	private BatchCourseServiceInterface batchCourseServiceInterface;
+	
+	@Autowired
+	private PlacementImageServiceInterface placementImageServiceInterface;
 
     @Autowired
     public BatchController(BatchCourseServiceInterface batchCourseServiceInterface) {
@@ -56,11 +62,16 @@ public class BatchController {
 	@Autowired
 	private BatchCourseClassLinksServiceServicesInterface batchCourseClassLinksServiceServicesInterface;
 	
+	@Autowired
+	private BatchCourseRecordedVideoSubjectServiceInterface batchCourseRecordedVideoSubjectServiceInterface;
+	
+	@Autowired
+	private RecordedSubjectVideoServiceInterface recordedSubjectVideoServiceInterface;
+	
 	
 	
 	@PostMapping("/batchs")
 	public Responce addBatch(@RequestBody HashMap<String, Object> batch) throws Exception {
-		
 		return batchServiceInterface.addBatch(batch);
 	}
 	
@@ -181,6 +192,63 @@ public class BatchController {
 	}
 	
 	
+	
+	
+	//// batch Course Recorded video subjects
+	
+	
+	
+	
+	@PostMapping("/batchCourses/{batchCourseId}/recordedVideoSubjects")
+	public Responce addNewbatchCourseRecordedVideoSubject(@PathVariable("batchCourseId")String batchCourseId,@RequestBody Map<String, Object> subjectData) {
+		return batchCourseRecordedVideoSubjectServiceInterface.addNewbatchCourseRecordedVideoSubject(batchCourseId, subjectData);
+	}
+	
+	@DeleteMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}")
+	public Responce deletebatchCourseRecordedVideoSubject(@PathVariable("recordedVideoSubjectsId")String recordedVideoSubjectsId) {
+		return batchCourseRecordedVideoSubjectServiceInterface.deletebatchCourseRecordedVideoSubject(recordedVideoSubjectsId);
+	}
+	
+	@PutMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}")
+	public Responce updatebatchCourseRecordedVideoSubject(@PathVariable("recordedVideoSubjectsId")String recordedVideoSubjectsId,@RequestBody  Map<String, Object> subjectData) {
+		return batchCourseRecordedVideoSubjectServiceInterface.updatebatchCourseRecordedVideoSubject(recordedVideoSubjectsId, subjectData);
+	}
+	
+	@GetMapping("/batchCourses/{batchCourseId}/recordedVideoSubjects")
+	public List<Map<String , Object>> getAllbatchCourseRecordedVideoSubjectByBatchCourseId(@PathVariable("batchCourseId")String batchCourseId) {
+		return batchCourseRecordedVideoSubjectServiceInterface.getAllbatchCourseRecordedVideoSubjectByBatchCourseId(batchCourseId);
+	}
+	
+	
+	
+	
+	
+	
+	//// recorded subject videos
+	
+	@PostMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}/recordedVideos")
+	public Responce addNewRecordedSubjectVideo(@PathVariable("recordedVideoSubjectsId") String recordedVideoSubjectsId,@RequestBody HashMap<String, Object> recordedVideoData) {
+		return recordedSubjectVideoServiceInterface.addNewRecordedSubjectVideo(recordedVideoSubjectsId, recordedVideoData);
+	}
+	
+	@DeleteMapping("/recordedVideos/{recordedVideoId}")
+	public Responce deleteRecordedSubjectVideo(@PathVariable("recordedVideoId") String recordedVideoId) {
+		return recordedSubjectVideoServiceInterface.deleteRecordedSubjectVideo(recordedVideoId);
+	}
+	
+	@PutMapping("/recordedVideos/{recordedVideoId}")
+	public Responce updateRecodedSubjectVideo(@PathVariable("recordedVideoId")String recordedVideoId,@RequestBody HashMap<String, Object>  RecordedVideoData) {
+		return recordedSubjectVideoServiceInterface.updateRecodedSubjectVideo(recordedVideoId, RecordedVideoData);
+	}
+
+@GetMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}/recordedVideos")
+	public List<Map<String, Object>> getAllRecordedSubjectVideo(@PathVariable("recordedVideoSubjectsId")String recordedVideoSubjectsId){
+		return recordedSubjectVideoServiceInterface.getAllRecordedSubjectVideo(recordedVideoSubjectsId);
+	}
+	
+	
+	
+	
 	//batch course Placements class
 	
 	
@@ -209,14 +277,38 @@ public class BatchController {
 	
 	
 	
+	//// batch Course PLacement image
+	
+	
+	@PostMapping("/placements/{placementId}/placementImages")
+	public Responce addNewPlacementImage(@PathVariable("placementId")String placementId,@RequestBody HashMap<String, Object> placementImgaeData) {
+		return placementImageServiceInterface.addNewPlacementImage(placementId, placementImgaeData);	
+		}
+		
+		@DeleteMapping("/placementImages/{placementImageId}")
+		public Responce deletePlacementImage(@PathVariable("placementImageId") String placementimageId) {
+			return placementImageServiceInterface.deletePlacementImage(placementimageId);
+		}
+		
+		@PutMapping("/placementImages/{placementImageId}")
+		public Responce updatePlacementImage(@PathVariable("placementImageId") String placementImageId,@RequestBody HashMap<String, Object> placementImageData) {
+			return placementImageServiceInterface.updatePlacementImage(placementImageId, placementImageData);
+		}
+		
+		@GetMapping("/placements/{placementId}/placementImages")
+		public List<Map<String , Object>> getPlacementImate(@PathVariable("placementId")String placementId) {
+			
+			return placementImageServiceInterface.getPlacementImate(placementId);
+		}
+	
+	
+	
 	////BATCH COURSE CLASS LINKS
 	
 	@PostMapping("/batchCourses/{batchCourseId}/classLinks/{batchCourseSubjectId}")
-	public Responce addnewClassLink(@PathVariable("batchCourseId") String batchCourseId,@PathVariable("batchCourseSubjectId") String batchCourseSubjectId,@RequestBody HashMap<String, Object> classLinkData) throws Exception {
-		
+	public Responce addnewClassLink(@PathVariable("batchCourseId") String batchCourseId,@PathVariable("batchCourseSubjectId") String batchCourseSubjectId,@RequestBody HashMap<String, Object> classLinkData) throws Exception {	
 		return batchCourseClassLinksServiceServicesInterface.addnewClassLink(batchCourseId, batchCourseSubjectId, classLinkData);
 	}
-	
 	@GetMapping("/batchCourses/{batchCourseId}/classLinks")
 	public List<Map<String, Object>> getAllClassLinksByBatchCourseId(@PathVariable("batchCourseId")String batchCourseId) throws Exception{
 		

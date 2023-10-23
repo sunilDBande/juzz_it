@@ -1,15 +1,18 @@
 package com.juzzIt.EducationProject.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 
 
@@ -27,6 +30,11 @@ public class CourseTypeTools implements Serializable{
 	@JsonIgnore
 	@JoinColumn(name="COURSE_TYPE_ID")
 	private CourseType courseType;
+	
+	
+	@OneToMany(mappedBy = "CourseTypeTools",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+	private List<ToolImage> toolImage;
+
 
 	public CourseTypeTools() {
 		super();

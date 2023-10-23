@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.juzzIt.EducationProject.Entity.Student;
 import com.juzzIt.EducationProject.Models.LogInData;
+import com.juzzIt.EducationProject.Models.LogInOrSignUpResponce;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.StudentServiceInterface;
 
@@ -28,13 +29,10 @@ public class StudentController {
 	StudentServiceInterface studentService;
   
 	@PostMapping("/signUp")
-	public Responce signUp(@RequestBody HashMap<String, Object> student) throws Exception {
-		
+	public LogInOrSignUpResponce signUp(@RequestBody HashMap<String, Object> student) throws Exception {
 		System.out.println(student);
 		return studentService.addNewStudent(student);
 	}
-	
-	
 	@PostMapping("/logIn")
 	public Responce StudentLogIn(@RequestBody LogInData logInData) {
 		System.out.println(logInData);
@@ -42,11 +40,6 @@ public class StudentController {
 	}
 	
 	
-	@GetMapping("/student/{StudentId}")
-	public Student  getStudent(@PathVariable("StudentId") String studentId) {
-		System.out.println(studentId);
-		return studentService.getStudentById(studentId);
-	}
 	
 	@PutMapping("/student/{StudentId}")
 	public Responce updateStudent(@PathVariable("StudentId") String studentId, @RequestBody HashMap<String, Object> student) throws Exception {

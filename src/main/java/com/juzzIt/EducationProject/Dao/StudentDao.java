@@ -19,10 +19,10 @@ import com.juzzIt.EducationProject.Repositary.StudentRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 @Component
 public class StudentDao implements StudentDaoInterface {
-
 	@Autowired
 	StudentRepository studentRepo;
 	
@@ -85,5 +85,38 @@ public class StudentDao implements StudentDaoInterface {
 		}
 		return studentList;
 	}
+
+	@Override
+	public Student getStudentByEmail(String email) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Student> createQuery = criteriaBuilder.createQuery(Student.class);
+		Root<Student> root = createQuery.from(Student.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("studentEmail"), email);
+		createQuery.select(root).where(predicate);
+		
+		List<Student> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+		return resultList.get(0);
+	}
+
+	@Override
+	public Student getStudentById(String studentId) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Student> createQuery = criteriaBuilder.createQuery(Student.class);
+		Root<Student> root = createQuery.from(Student.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("studentId"), studentId);
+		createQuery.select(root).where(predicate);
+		
+		List<Student> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+		return resultList.get(0);
+	}
+
 
 }

@@ -2,6 +2,7 @@ package com.juzzIt.EducationProject.Controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.juzzIt.EducationProject.Entity.Teacher;
 import com.juzzIt.EducationProject.Models.LogInData;
+import com.juzzIt.EducationProject.Models.LogInOrSignUpResponce;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.TeacherServiceInterface;
 
@@ -28,7 +30,7 @@ public class TeacherController {
 	TeacherServiceInterface teacherService;
 
 	@PostMapping("/signUp")
-	public Responce teacherSignUp(@RequestBody HashMap<String, Object> teacher) {
+	public LogInOrSignUpResponce teacherSignUp(@RequestBody HashMap<String, Object> teacher) {
 		System.out.println(teacher);
 		return teacherService.addNewTeacher(teacher);
 	}
@@ -44,15 +46,10 @@ public class TeacherController {
 	}
 	
 	
-	@GetMapping("/teacher/{teacherId}")
-	public Teacher getTeacherById(@PathVariable("teacherId") String teacherId) throws Exception {
-		System.out.println(teacherId);
-		return teacherService.getTeacherById(teacherId);
-	}
 	
 	
 	@GetMapping("/teachers")
-	public List<Teacher> getAllTeacher(){
+	public List<Map<String, Object>> getAllTeacher(){
 		return teacherService.getTeachers();
 	}
 	
@@ -65,14 +62,15 @@ public class TeacherController {
 	
 	@PutMapping("/teacher/{teachetId}")
 	public Responce updateTeacher(@PathVariable("teachetId") String teacherId, @RequestBody HashMap<String, Object> teacher) throws Exception {
-		
-		System.out.println(teacher);
 		return teacherService.updateTeacher(teacherId, teacher);
 	}
-	
 	@GetMapping("/teachers/{teacherId}/BatchDetails")
 	public List<HashMap<String, Object>>  getAllTeacherDetails(@PathVariable("teacherId") String teacherId) throws Exception{
 		return teacherService.getAllTeacherDetails(teacherId);
+	}
+	@GetMapping("/teachers/{teacherId}/details")
+	public Teacher getTeacherDataById(@PathVariable("teacherId") String teacherId) throws Exception{
+		return teacherService.getTeacherById(teacherId);
 	}
 	
 	

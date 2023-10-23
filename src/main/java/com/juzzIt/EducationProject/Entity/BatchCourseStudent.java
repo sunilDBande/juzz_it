@@ -1,15 +1,18 @@
 package com.juzzIt.EducationProject.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 @Entity
 public class BatchCourseStudent implements Serializable{
@@ -24,6 +27,8 @@ public class BatchCourseStudent implements Serializable{
 	private String enrollType;
 	@Column(name="STUDENT_PERMITION_STATUS")
 	private String studentPermitionStatus;
+	
+	
 	@OneToOne(cascade = CascadeType.REMOVE,  orphanRemoval = true)
 	@JoinColumn(name="STUDENT_ENROLL_DETAILS_ID")
 	private StudentEnrollDetails studentEnrollDetails;
@@ -38,7 +43,7 @@ public class BatchCourseStudent implements Serializable{
 	@JsonIgnore
 	@JoinColumn(name="BATCH_COURSE_ID")
 	private BatchCourse batchCourse;
-
+	
 
 	public BatchCourseStudent() {
 		super();

@@ -5,22 +5,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.juzzIt.EducationProject.DaoInterface.TeacherDaoInterface;
 import com.juzzIt.EducationProject.Entity.Teacher;
+import com.juzzIt.EducationProject.JWTimplementation.JwtHelper;
+import com.juzzIt.EducationProject.Models.LogInOrSignUpResponce;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
+import com.juzzIt.EducationProject.Models.UseTypeEnum;
 import com.juzzIt.EducationProject.Repositary.TeacherRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 @Component
 public class TeacherDao implements TeacherDaoInterface {
-
 	@Autowired
 	private TeacherRepository teacherRepo;
 
@@ -38,11 +47,22 @@ public class TeacherDao implements TeacherDaoInterface {
 	
 	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+   private PasswordEncoder passwordEncoder;
+	
+
+    @Autowired
+    private JwtHelper helper;
 
 	
 
 	@Override
-	public Responce addNewTeacher(HashMap<String, Object> teacher) {
+	public LogInOrSignUpResponce addNewTeacher(HashMap<String, Object> teacher) {
+		
+		LogInOrSignUpResponce logInOrSignUpResponce=new LogInOrSignUpResponce();
+		
+		
 		Responce responce = new Responce();
 	
 		Teacher teacherobj = new Teacher();
@@ -50,15 +70,16 @@ public class TeacherDao implements TeacherDaoInterface {
 		teacherobj.setUpdateDate(LocalDateTime.now());
 		 if(teacher.get("teacher_Name")==null || teacher.get("teacher_Address")==null ||
 				 teacher.get("teacher_Email")==null || teacher.get("teacher_MobileNum")==null || teacher.get("teacher_Password")==null) {
-	    	 responce.setStatus(false);
-			 responce.setMassege("Please pass fields teacher_Name, teacher_Address, teacher_Email, teacher_MobileNum, and teacher_Password...");
-	    	 return responce;
+			 logInOrSignUpResponce.setSuccessStatus(false);
+			 logInOrSignUpResponce.setMassage(null);
+	    	 return logInOrSignUpResponce;
 	     }
 		try {
 			boolean isExists = teacherRepo.existsByTeacherEmail(teacherobj.getTeacherEmail());
 			if (isExists) {
-				responce.setStatus(false);
-				responce.setMassege("teacher with email id is alrady exist");
+				logInOrSignUpResponce.setSuccessStatus(isExists);
+				logInOrSignUpResponce.setMassage("teacher with email id is alrady exist");
+				return logInOrSignUpResponce;
 			} else {
 
 				HashMap<String, Object> data = new HashMap<String, Object>();
@@ -75,26 +96,36 @@ public class TeacherDao implements TeacherDaoInterface {
 				} else {
 					teacherobj.setTeacherId(subName + "" + count);
 				}
+				
+			String password=passwordEncoder.encode((String) teacher.get("teacher_Password"));
+				
 				teacherobj.setTeacherName((String) teacher.get("teacher_Name"));
 				teacherobj.setTeacherAddress((String) teacher.get("teacher_Address"));
 				teacherobj.setTeacherEmail((String) teacher.get("teacher_Email"));
 				teacherobj.setTeacherMobileNumber((long) teacher.get("teacher_MobileNum"));
-				teacherobj.setTeacherPassword((String) teacher.get("teacher_Password"));
+				teacherobj.setTeacherPassword(password);
+				teacherobj.setRole(UseTypeEnum.TRAINER.toString());
 				Teacher save = teacherRepository.save(teacherobj);
 				if (save != null) {
 					entityDao.updateCountForCourseTable(data);
-					responce.setStatus(true);
-					responce.setMassege("teacher Added succeccfully.....");
+					
+					  String token = this.helper.generateToken(save.getTeacherEmail()+"*"+UseTypeEnum.TRAINER.toString());
+					
+					  logInOrSignUpResponce.setJwtTokan(token);
+					  logInOrSignUpResponce.setUserType(save.getRole());
+					  logInOrSignUpResponce.setUserId(save.getTeacherId());
+					  logInOrSignUpResponce.setSuccessStatus(true);
+					  logInOrSignUpResponce.setMassage("teacher Added succeccfully.....");
 				} else {
-					responce.setStatus(false);
-					responce.setMassege("Teacher is not created.....");
+				
+					logInOrSignUpResponce.setSuccessStatus(false);
+					logInOrSignUpResponce.setMassage("Teacher is not created.....");
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return responce;
+		return logInOrSignUpResponce;
 	}
 
 	@Override
@@ -154,5 +185,71 @@ public class TeacherDao implements TeacherDaoInterface {
 		}
 		return finalOutput;
 	}
+
+	@Override
+	public Teacher getTeacherByEmail(String email) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Teacher> createQuery = criteriaBuilder.createQuery(Teacher.class);
+		Root<Teacher> root = createQuery.from(Teacher.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("teacherEmail"), email);
+		
+		createQuery.select(root).where(predicate);
+		
+		List<Teacher> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+	
+		return resultList.get(0);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getAllTeacher() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Teacher> createQuery = criteriaBuilder.createQuery(Teacher.class);
+		Root<Teacher> root = createQuery.from(Teacher.class);		
+		createQuery.select(root);
+		
+		List<Teacher> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		List<Map<String, Object>> collect = resultList.stream().map(result->{
+			
+			
+			Map<String, Object> map=new LinkedHashMap<String, Object>();
+			map.put("teacherId", result.getTeacherId());
+			map.put("teacherName", result.getTeacherName());
+			map.put("teacherEmail", result.getTeacherEmail());
+			map.put("teacherPassword", result.getTeacherPassword());
+			map.put("teacherMobileNumber", result.getTeacherMobileNumber());
+			map.put("TEACHER_ADDRESS", result.getTeacherAddress());
+			map.put("CREATED_DATE", result.getCreatedDate());
+			
+			
+			return map;
+		}).collect(Collectors.toList());
+		
+		return collect;
+	}
+
+	@Override
+	public Teacher getTeacherById(String teacherId) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Teacher> createQuery = criteriaBuilder.createQuery(Teacher.class);
+		Root<Teacher> root = createQuery.from(Teacher.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("teacherId"), teacherId);
+		
+		createQuery.select(root).where(predicate);
+		
+		List<Teacher> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+	
+		return resultList.get(0);
+	}
+
 
 }

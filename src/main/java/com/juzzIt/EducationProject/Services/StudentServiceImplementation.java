@@ -6,14 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.juzzIt.EducationProject.Dao.EntityDao;
 import com.juzzIt.EducationProject.DaoInterface.StudentDaoInterface;
 import com.juzzIt.EducationProject.Entity.Student;
+import com.juzzIt.EducationProject.JWTimplementation.JwtHelper;
 import com.juzzIt.EducationProject.Models.LogInData;
+import com.juzzIt.EducationProject.Models.LogInOrSignUpResponce;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
+import com.juzzIt.EducationProject.Models.UseTypeEnum;
 import com.juzzIt.EducationProject.Repositary.StudentRepository;
 import com.juzzIt.EducationProject.ServiceInterface.StudentServiceInterface;
 
@@ -25,7 +29,6 @@ import jakarta.persistence.criteria.Root;
 
 @Service
 public class StudentServiceImplementation implements StudentServiceInterface{
-
 	@Autowired
 	StudentRepository studentRepo;
 
@@ -44,23 +47,41 @@ public class StudentServiceImplementation implements StudentServiceInterface{
 	@Autowired
 	private Responce responce;
 	
+		   @Autowired
+		    private JwtHelper helper;
+		
+		@Autowired
+		private PasswordEncoder passwordEncoder;
+	
 	@Override
-	public Responce addNewStudent(HashMap<String, Object> student) throws Exception {
-		Responce responce=new Responce();
+	public LogInOrSignUpResponce addNewStudent(HashMap<String, Object> student) throws Exception {
+//		Responce responce=new Responce();
+		LogInOrSignUpResponce logInOrSignUpResponce=new LogInOrSignUpResponce();
 		try {
+			
+			
 		Student studentobj = new Student();
 		studentobj.setCreatedDate(LocalDateTime.now());
 		studentobj.setUpdatedDate(LocalDateTime.now());
 	     if(student.get("student_Address")==null || student.get("student_Email")==null ||
 	    		 student.get("student_MobileNum")==null || student.get("student_Name")==null || student.get("student_Password")==null) {
-	    	 responce.setStatus(false);
-			 responce.setMassege("Please pass fields student_Address, student_Email, student_MobileNum, student_Name, and student_Password..");
-	    	 return responce;
+	    	
+	    	 logInOrSignUpResponce.setSuccessStatus(false);
+	    	 logInOrSignUpResponce.setMassage("Please pass fields student_Address, student_Email, student_MobileNum, student_Name, and student_Password..");
+	    	 
+//	    	 responce.setStatus(false);
+//			 responce.setMassege("Please pass fields student_Address, student_Email, student_MobileNum, student_Name, and student_Password..");
+	    	 return logInOrSignUpResponce;
 	     }
 			boolean isExist=studentRepo.existsByStudentEmail((String)student.get("student_Email"));
 			if(isExist) {
-				responce.setStatus(false);
-				responce.setMassege("account with this email aleady exist");
+				
+				 logInOrSignUpResponce.setSuccessStatus(false);
+		    	 logInOrSignUpResponce.setMassage("account with this email aleady exist");
+				
+		    	 return logInOrSignUpResponce;
+//				responce.setStatus(false);
+//				responce.setMassege("account with this email aleady exist");
 			}else {
 				HashMap<String, Object> data = new HashMap<String, Object>();
 				data.put("Entity_Name", "Student");
@@ -80,28 +101,50 @@ public class StudentServiceImplementation implements StudentServiceInterface{
 					studentobj.setStudentId(subName + "" + count);
 				}
 				// *******
+				
+				
+				System.out.println((String)student.get("student_Password"));
+				
+			    String passWord = passwordEncoder.encode((String)student.get("student_Password"));
+			    System.out.println(passWord);
 				studentobj.setStudentAddress((String)student.get("student_Address"));
 				studentobj.setStudentEmail((String)student.get("student_Email"));
 				studentobj.setStudentMobileNumber((long)student.get("student_MobileNum"));
 				studentobj.setStudentName((String)student.get("student_Name"));
-				studentobj.setStudentPassword((String)student.get("student_Password"));
+				studentobj.setStudentPassword(passWord);
 				studentobj.setStudent_Enroll("D");
+				studentobj.setRole(UseTypeEnum.STUDENT.toString());
 				Student addedNewStudent = studentDaoInterface.addNewStudent(studentobj);
 				if(addedNewStudent!=null) {
-					responce.setStatus(true);
-					responce.setMassege("student data added successfully");
+					
+				    String token = this.helper.generateToken(addedNewStudent.getStudentEmail()+"*"+UseTypeEnum.STUDENT.toString());
+				    
+					 logInOrSignUpResponce.setSuccessStatus(true);
+			    	 logInOrSignUpResponce.setMassage("student data added successfully");
+			    	 logInOrSignUpResponce.setJwtTokan(token);
+			    	 logInOrSignUpResponce.setUserId(addedNewStudent.getStudentId());
+			    	 logInOrSignUpResponce.setUserType(addedNewStudent.getRole());
+			    	 
+//					responce.setStatus(true);
+//					responce.setMassege("student data added successfully");
 					entityDao.updateCountForCourseTable(data);
 				}else {		
-					responce.setStatus(false);
-					responce.setMassege("Problem while adding student...");
+					
+					 logInOrSignUpResponce.setSuccessStatus(false);
+			    	 logInOrSignUpResponce.setMassage("account with this email aleady exist");
+//					responce.setStatus(false);
+//					responce.setMassege("Problem while adding student...");
 				}
 			}
 					
 		}catch (Exception e) {
+			
+			
+		e.printStackTrace();
 			throw new Exception("Getting problem while adding New Student");
 		}
 		
-		return responce;
+		return logInOrSignUpResponce;
 	}
 
 	
@@ -154,7 +197,7 @@ public class StudentServiceImplementation implements StudentServiceInterface{
    
 	boolean isExists=studentRepo.existsByStudentEmail(logInData.getEmail());
 	if(isExists) {
-		Student student =studentRepo.findByStudentEmail(logInData.getEmail()).get();
+		Student student =studentRepo.findByStudentEmail(logInData.getEmail()).get(0);
 		if(student.getStudentPassword().equals(logInData.getPassword())) {
 			responce.setStatus(true);
             responce.setMassege(student.getStudentId());
@@ -200,5 +243,12 @@ public class StudentServiceImplementation implements StudentServiceInterface{
 	public Responce deleteStudentById(String studentId) {
 		// TODO Auto-generated method stub
 		return studentDaoInterface.deleteStudentById(studentId);
+	}
+
+
+	@Override
+	public Student getStudentByEmail(String email) {
+		// TODO Auto-generated method stub
+		return studentDaoInterface.getStudentByEmail(email);
 	}
 }

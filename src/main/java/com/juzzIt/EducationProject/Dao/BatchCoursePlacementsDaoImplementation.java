@@ -162,4 +162,26 @@ try {
 		return responce;
 	}
 
+	@Override
+	public BatchCoursePlacements getBatchCoursePlacementsById(String batchCoursePlacementsId) {
+	CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		
+		CriteriaQuery<BatchCoursePlacements> Query = criteriaBuilder.createQuery(BatchCoursePlacements.class);
+		
+		Root<BatchCoursePlacements> root = Query.from(BatchCoursePlacements.class);
+		
+		
+		Predicate predicate = criteriaBuilder.equal(root.get("placementId"), batchCoursePlacementsId);
+		
+		Query.select(root).where(predicate);
+		
+		List<BatchCoursePlacements> resultList = entityManager.createQuery(Query).getResultList();
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+		
+		return resultList.get(0);
+	}
+
 }

@@ -12,4 +12,5 @@ public interface CourseTypeToolsDaoInterface {
 	public CourseTypeTools addTools(CourseTypeTools tool);
 	public Responce deleteTools(String toolId) throws Exception;
 	public List<Map<String , Object>> getAllToolsByCourseTypeId(String courseTypeId) throws Exception;
+	public CourseTypeTools getCourseTypeToolsById(String toolId);
 }

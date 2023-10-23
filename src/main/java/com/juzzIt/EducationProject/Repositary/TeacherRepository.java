@@ -1,5 +1,6 @@
 package com.juzzIt.EducationProject.Repositary;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
 	
 	boolean existsByTeacherEmail(String teacherEmail);
 	
-	Optional<Teacher> findByTeacherEmail(String teacherEmail);
+
+	List<Teacher> findByTeacherEmail(String teacherEmail);
 }

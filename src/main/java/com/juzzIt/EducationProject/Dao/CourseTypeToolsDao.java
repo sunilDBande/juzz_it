@@ -109,4 +109,27 @@ CourseType courseType = courseTypeDaoInterface.getCourseTypeById(courseTypeId);
 		return collect;
 	}
 
+	@Override
+	public CourseTypeTools getCourseTypeToolsById(String toolId) {
+CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		
+		
+		CriteriaQuery<CourseTypeTools> createQuery = criteriaBuilder.createQuery(CourseTypeTools.class);
+		
+		Root<CourseTypeTools> root = createQuery.from(CourseTypeTools.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("toolId"), toolId);
+		
+		
+		createQuery.select(root).where(predicate);
+		
+		List<CourseTypeTools> resultList = entityManager.createQuery(createQuery).getResultList();
+		
+		
+		
+		if(resultList.isEmpty()) {
+			return null;
+		}
+		return resultList.get(0);
+	}
+
 }

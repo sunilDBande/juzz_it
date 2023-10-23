@@ -34,10 +34,12 @@ public class Teacher implements Serializable{
 	@Column(name="UPDATED_DATE")
 	private LocalDateTime updateDate;
 	
-	
-	
+
+	@Column (name="USER_ROLE")
+    private String role;
 	@OneToMany(mappedBy = "teacher",fetch = FetchType.LAZY)
 	private List<BatchCourseSubject> batchCourseSubject;
+	
 
 
 
@@ -48,9 +50,10 @@ public class Teacher implements Serializable{
 
 
 
+
 	public Teacher(String teacherId, String teacherName, String teacherEmail, String teacherPassword,
 			long teacherMobileNumber, String teacherAddress, LocalDateTime createdDate, LocalDateTime updateDate,
-			List<BatchCourseSubject> batchCourseSubject) {
+			String role, List<BatchCourseSubject> batchCourseSubject) {
 		super();
 		this.teacherId = teacherId;
 		this.teacherName = teacherName;
@@ -60,8 +63,10 @@ public class Teacher implements Serializable{
 		this.teacherAddress = teacherAddress;
 		this.createdDate = createdDate;
 		this.updateDate = updateDate;
+		this.role = role;
 		this.batchCourseSubject = batchCourseSubject;
 	}
+
 
 
 
@@ -71,9 +76,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
+
 
 
 
@@ -83,9 +90,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
 	}
+
 
 
 
@@ -95,9 +104,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherEmail(String teacherEmail) {
 		this.teacherEmail = teacherEmail;
 	}
+
 
 
 
@@ -107,9 +118,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherPassword(String teacherPassword) {
 		this.teacherPassword = teacherPassword;
 	}
+
 
 
 
@@ -119,9 +132,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherMobileNumber(long teacherMobileNumber) {
 		this.teacherMobileNumber = teacherMobileNumber;
 	}
+
 
 
 
@@ -131,9 +146,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setTeacherAddress(String teacherAddress) {
 		this.teacherAddress = teacherAddress;
 	}
+
 
 
 
@@ -143,9 +160,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
+
 
 
 
@@ -155,9 +174,25 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setUpdateDate(LocalDateTime updateDate) {
 		this.updateDate = updateDate;
 	}
+
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 
 
 
@@ -167,9 +202,11 @@ public class Teacher implements Serializable{
 
 
 
+
 	public void setBatchCourseSubject(List<BatchCourseSubject> batchCourseSubject) {
 		this.batchCourseSubject = batchCourseSubject;
 	}
+
 
 
 
@@ -178,9 +215,10 @@ public class Teacher implements Serializable{
 		return "Teacher [teacherId=" + teacherId + ", teacherName=" + teacherName + ", teacherEmail=" + teacherEmail
 				+ ", teacherPassword=" + teacherPassword + ", teacherMobileNumber=" + teacherMobileNumber
 				+ ", teacherAddress=" + teacherAddress + ", createdDate=" + createdDate + ", updateDate=" + updateDate
-				+ ", batchCourseSubject=" + batchCourseSubject + "]";
+				+ ", role=" + role + ", batchCourseSubject=" + batchCourseSubject + "]";
 	}
-	
-	
+
+
+
 	
 }

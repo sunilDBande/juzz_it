@@ -48,10 +48,12 @@ public class SecurityConfig {
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration config = new CorsConfiguration();
                  List<String>  cors=new ArrayList<String>();
-                 cors.add("http://localhost:3000/");
+                 cors.add("https://gorgeous-moonbeam-e5acc3.netlify.app/");
                  cors.add("http://localhost:3001/");
                  cors.add("http://localhost:3002/");
                  cors.add("http://localhost:3003/");
+                 cors.add("https://thunderous-hamster-a21e5c.netlify.app/");
+                 cors.add("http://localhost:3000/");
                 config.setAllowedOrigins(cors);
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);

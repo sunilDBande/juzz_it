@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,10 +55,13 @@ public class CourseTypeBagroundImageService implements CourseTypeBagroundImageSe
 		
 		CourseTypeBagroundImage newCourseTypeBagroundImage=new CourseTypeBagroundImage();
 		
+		UUID id=UUID.randomUUID();
+		
+		
 		newCourseTypeBagroundImage.setCourseType(courseType);
 		newCourseTypeBagroundImage.setActiveStatus("D");
 		newCourseTypeBagroundImage.setCreatedDate(LocalDateTime.now());
-		newCourseTypeBagroundImage.setCourseTypeBagroundImageId(courseTypeBagroundImageData.get("id").toString());
+		newCourseTypeBagroundImage.setCourseTypeBagroundImageId(id.toString());
 		newCourseTypeBagroundImage.setImageURL(courseTypeBagroundImageData.get("image_URL").toString());
 		
 		CourseTypeBagroundImage addedCourseTypeBagroundImage = courseTypeBagroundImageDaoInterface.addNewCourseTypeBagroundImage(newCourseTypeBagroundImage);

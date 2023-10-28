@@ -16,6 +16,7 @@ import com.juzzIt.EducationProject.Entity.BatchCourse;
 import com.juzzIt.EducationProject.Entity.BatchCoursePlacements;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.BatchCoursePlacementsRepository;
+import com.juzzIt.EducationProject.ServiceInterface.PlacementImageServiceInterface;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -32,6 +33,7 @@ public class BatchCoursePlacementsDaoImplementation implements BatchCoursePlacem
 	@Autowired
 	private EntityManager entityManager;
 
+
 	public BatchCoursePlacements addNewPlacement(BatchCoursePlacements batchCoursePlacements) {
 		// TODO Auto-generated method stub
 		return batchCoursePlacementsRepository.save(batchCoursePlacements);
@@ -46,14 +48,9 @@ public class BatchCoursePlacementsDaoImplementation implements BatchCoursePlacem
 		CriteriaQuery<BatchCoursePlacements> Query = criteriaBuilder.createQuery(BatchCoursePlacements.class);
 		
 		Root<BatchCoursePlacements> root = Query.from(BatchCoursePlacements.class);
-		
-		
 		Predicate predicate = criteriaBuilder.equal(root.get("placementId"), placementId);
-		
 		Query.select(root).where(predicate);
-		
 		List<BatchCoursePlacements> resultList = entityManager.createQuery(Query).getResultList();
-		
 		if(resultList.isEmpty()) {
 			responce.setMassege("placement with the given id not found");
 			responce.setStatus(false);
@@ -62,20 +59,6 @@ public class BatchCoursePlacementsDaoImplementation implements BatchCoursePlacem
 			responce.setMassege("placement deleted successfully");
 			responce.setStatus(true);
 		}
-			
-//		
-//		Optional<BatchCoursePlacements> placenment = batchCoursePlacementsRepository.findById(placementId);
-//		Responce responce = new Responce();
-//
-//		if (placenment.isPresent()) {
-//			batchCoursePlacementsRepository.delete(placenment.get());
-//			responce.setMassege("placement deleted successfully");
-//			responce.setStatus(true);
-//
-//		} else {
-//			responce.setMassege("placement with the given id not found");
-//			responce.setStatus(false);
-//		}
 		}catch (Exception e) {
 			throw new Exception("Getting problem while deleting BatchCoursePlacement");
 		}
@@ -84,22 +67,16 @@ public class BatchCoursePlacementsDaoImplementation implements BatchCoursePlacem
 
 	@Override
 	public List<Map<String, Object>> getAllPlacementByBatchCourseId(BatchCourse batchCourse) throws Exception {
-System.out.println("*****123");
 List<Map<String, Object>> collect = null;
 try {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<BatchCoursePlacements> createQuery = criteriaBuilder.createQuery(BatchCoursePlacements.class);
 		Root<BatchCoursePlacements> root = createQuery.from(BatchCoursePlacements.class);
-
 		Predicate predicate = criteriaBuilder.equal(root.get("batchCourse"), batchCourse);
-
 		createQuery.select(root).where(predicate);
-
 		List<BatchCoursePlacements> resultList = entityManager.createQuery(createQuery).getResultList();
-
 		 collect = resultList.stream().map((result) -> {
 			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-
 			map.put("placement_Id", result.getPlacementId());
 			map.put("company_Name", result.getCompanyName());
 			map.put("company_Intruduction", result.getCompanyIntroduction());
@@ -164,23 +141,15 @@ try {
 
 	@Override
 	public BatchCoursePlacements getBatchCoursePlacementsById(String batchCoursePlacementsId) {
-	CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		
+	    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<BatchCoursePlacements> Query = criteriaBuilder.createQuery(BatchCoursePlacements.class);
-		
 		Root<BatchCoursePlacements> root = Query.from(BatchCoursePlacements.class);
-		
-		
 		Predicate predicate = criteriaBuilder.equal(root.get("placementId"), batchCoursePlacementsId);
-		
 		Query.select(root).where(predicate);
-		
 		List<BatchCoursePlacements> resultList = entityManager.createQuery(Query).getResultList();
-		
 		if(resultList.isEmpty()) {
 			return null;
 		}
-		
 		return resultList.get(0);
 	}
 

@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import com.juzzIt.EducationProject.Dao.EntityDao;
 import com.juzzIt.EducationProject.DaoInterface.CourseDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDaoInterface;
+import com.juzzIt.EducationProject.DaoInterface.CourseTypeImageDaoInterface;
 import com.juzzIt.EducationProject.Entity.Course;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGanaretor;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
+import com.juzzIt.EducationProject.ServiceInterface.CourseImageServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.CourseServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeBagroundImageServiceInterface;
 
 @Service
 public class CourseServiceImplementation implements CourseServiceInterface {
@@ -31,9 +34,23 @@ public class CourseServiceImplementation implements CourseServiceInterface {
 
 	@Autowired
 	private UniqueIdGenerations uniqueIdGenerations;
+	
+	@Autowired
+	private CourseImageServiceInterface courseImageServiceInterface;
+	
+	@Autowired
+	private CourseTypeImageService courseTypeImageService;
 
 	@Autowired
 	private EntityDao entityDao;
+	
+	
+	@Autowired
+	private CourseTypeBagroundImageServiceInterface courseTypeBagroundImageServiceInterface;
+	
+	@Autowired
+	private CourseTypeImageDaoInterface courseTypeImageDaoInterface;
+	
 
 	@Override
 	public Responce addCourse(HashMap<String, Object> course) throws Exception {
@@ -127,8 +144,15 @@ public class CourseServiceImplementation implements CourseServiceInterface {
 			System.out.println("--> " + course.entrySet());
 			String courseId = (String) course.get("course_Id");
 			System.out.println("--> " + courseId);
+			course.put("course_BagtoundImage", courseImageServiceInterface.getCoueseImage(courseId));
 			List<Map<String, Object>> courseTypes = courseTypeDaoInterface.getCourseTypeByCourseId(courseId);
-			course.put("Course_type", courseTypes);
+		
+			List<Map<String, Object>> collect = courseTypes.stream().map(result->{
+				result.put("courseType_bagroundImage", courseTypeBagroundImageServiceInterface.getCourseTypeBagroundImage(result.get("course_typeId").toString()));
+				result.put("courseTypeImage", courseTypeImageService.getCourseTypeImage(result.get("course_typeId").toString()));	
+						return result;
+			}).collect(Collectors.toList());
+			course.put("courseType_Id", collect);
 			return course;
 		}).collect(Collectors.toList());
 	}

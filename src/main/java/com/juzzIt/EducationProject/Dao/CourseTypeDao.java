@@ -15,6 +15,7 @@ import com.juzzIt.EducationProject.DaoInterface.CourseDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDetailsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeEssentialsDaoInterface;
+import com.juzzIt.EducationProject.DaoInterface.CourseTypeImageDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeKeyHighlightsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeObjectiveDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeProjectsDaoInterface;
@@ -27,6 +28,7 @@ import com.juzzIt.EducationProject.Entity.Course;
 import com.juzzIt.EducationProject.Entity.CourseType;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.CourseTypeRepositary;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeBagroundImageServiceInterface;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -45,37 +47,9 @@ public class CourseTypeDao implements CourseTypeDaoInterface{
 	
 	@Autowired
 	private EntityManager entityManager;
-//	@Autowired
-//	private CourseTypeDetailsDaoInterface courseTypeDetailsDaoInterface;
-//
-//    @Autowired
-//    public CourseTypeDao(CourseTypeDetailsDaoInterface courseTypeDetailsDaoInterface) {
-//        this.courseTypeDetailsDaoInterface = courseTypeDetailsDaoInterface;
-//    }
-//	@Autowired
-//	private CourseTypeEssentialsDaoInterface courseTypeEssentialsDaoInterface;
-//	
-//	@Autowired
-//	private CourseTypeKeyHighlightsDaoInterface courseTypeKeyHighlightsDaoInterface;
-//	
-//	@Autowired
-//	private CourseTypeObjectiveDaoInterface courseTypeObjectiveDaoInterface;
-//	
-//	@Autowired
-//	private CourseTypeProjectsDaoInterface courseTypeProjectsDaoInterface;
-//	
-//	@Autowired
-//	private CourseTypeToolsDaoInterface courseTypeToolsDaoInterface;
-//	
-//	
-//	@Autowired
-//	private ModuleDaoInterface moduleDaoInterface;
-//	@Autowired
-//	private LessonDaoInterface lessonDaoInterface;
-//	@Autowired
-//	private TopicDaoInterface topicDaoInterface;
-//	
+
 	
+
 	@Override
 	public boolean IsExists(String courseTypeId) {
 		// TODO Auto-generated method stub
@@ -111,9 +85,7 @@ public class CourseTypeDao implements CourseTypeDaoInterface{
 		List<CourseType> resultList = entityManager.createQuery(createQuery).getResultList();
 		
 		List<Map<String, Object>>  courseType  = resultList.stream().map(result->{
-			
 			Map<String , Object> map=new LinkedHashMap<String, Object>();
-			
 			map.put("course_typeId", result.getCourseTypeId());
 			map.put("course_typeName", result.getCourseTypeName());
 			map.put("course_level", result.getCourseLevel());
@@ -236,7 +208,6 @@ responce.setStatus(true);
 			map.put("courseType_Id", result.getCourseTypeId());
 			map.put("courseType_Name", result.getCourseTypeName());
 			map.put("courseType_Level", result.getCourseLevel());
-			
 			return map;
 		}).collect(Collectors.toList());
 		

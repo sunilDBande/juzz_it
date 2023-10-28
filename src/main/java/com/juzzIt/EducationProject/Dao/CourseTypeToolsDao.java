@@ -13,6 +13,8 @@ import com.juzzIt.EducationProject.Entity.CourseType;
 import com.juzzIt.EducationProject.Entity.CourseTypeTools;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.CourseTypeToolsRepository;
+import com.juzzIt.EducationProject.ServiceInterface.ToolImageServiceInterface;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -31,6 +33,8 @@ public class CourseTypeToolsDao implements CourseTypeToolsDaoInterface{
 	
 	@Autowired
 	private CourseTypeToolsRepository courseTypeToolsRepository;
+	
+
 	
 	@Override
 	public CourseTypeTools addTools(CourseTypeTools tool) {
@@ -94,10 +98,8 @@ CourseType courseType = courseTypeDaoInterface.getCourseTypeById(courseTypeId);
 		createQuery.select(root).where(condetion);
 		
 		List<CourseTypeTools> resultList = entityManager.createQuery(createQuery).getResultList();
-		 collect = resultList.stream().map(result->{
-			
+		         collect = resultList.stream().map(result->{
 			Map<String, Object> map=new LinkedHashMap<String, Object>();
-			
 			map.put("tool_id", result.getToolId());
 			map.put("tool_name", result.getToolName());
 			return map;
@@ -123,9 +125,6 @@ CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		createQuery.select(root).where(predicate);
 		
 		List<CourseTypeTools> resultList = entityManager.createQuery(createQuery).getResultList();
-		
-		
-		
 		if(resultList.isEmpty()) {
 			return null;
 		}

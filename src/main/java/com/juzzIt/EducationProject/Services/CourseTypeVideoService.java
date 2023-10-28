@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,12 +48,13 @@ public class CourseTypeVideoService implements CourseTypeVideoServiceInterface {
 			return responce;
 		}
 		
+		UUID id=UUID.randomUUID();
 		
 		CourseTypeVideo newCourseTypeVideo=new CourseTypeVideo();
 		newCourseTypeVideo.setCourseType(courseType);
 		newCourseTypeVideo.setActiveStatus("D");
 		newCourseTypeVideo.setCreatedDate(LocalDateTime.now());
-		newCourseTypeVideo.setCourseTypeVideoId(courseTypeVideoData.get("id").toString());
+		newCourseTypeVideo.setCourseTypeVideoId(id.toString());
 		newCourseTypeVideo.setVideoURL(courseTypeVideoData.get("video_URL").toString());
 		CourseTypeVideo addedCourseTypeVideo = courseTypeVideoDaoInterface.addNewCourseTypeVideo(newCourseTypeVideo);
 		

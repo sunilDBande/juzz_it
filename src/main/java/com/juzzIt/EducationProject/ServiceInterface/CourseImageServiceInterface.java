@@ -15,4 +15,6 @@ public interface CourseImageServiceInterface {
 	public Responce deleteCourseImage( String courseTypeImageId);
 	public Responce updateCourseImage( String courseTypeImageId,HashMap<String, Object> courseImageData) ;
 	public List<Map<String , Object>> getCoueseImage(String courseId) ;
+	
+	
 }

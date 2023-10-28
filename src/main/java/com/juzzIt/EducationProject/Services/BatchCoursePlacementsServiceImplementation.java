@@ -1,8 +1,10 @@
 package com.juzzIt.EducationProject.Services;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import com.juzzIt.EducationProject.Entity.BatchCoursePlacements;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCoursePlacementsServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.PlacementImageServiceInterface;
 
 
 @Service
@@ -28,6 +31,8 @@ public class BatchCoursePlacementsServiceImplementation implements BatchCoursePl
 	
 	@Autowired
 	private UniqueIdGenerations uniqueIdGenerations;
+	@Autowired
+	private PlacementImageServiceInterface placementImageServiceInterface;
 
 	@Autowired
 	private EntityDao entityDao;
@@ -113,15 +118,15 @@ BatchCourse batchCourse = batchCourseDaoInterface.getBatchCourseById(batchCourse
 			return null;
 		}
 		
+		List<Map<String, Object>> placements = batchCoursePlacementsDaoInterface.getAllPlacementByBatchCourseId(batchCourse);
 		
-		return batchCoursePlacementsDaoInterface.getAllPlacementByBatchCourseId(batchCourse);
-		
-	
+		return 	placements.stream().map(result->{
+			result.put("placement_image",placementImageServiceInterface.getPlacementImate(result.get("placement_Id").toString()) );
+			return result;
+		}).collect(Collectors.toList());
 	}
-
 	@Override
 	public Responce updateBatchCoursePlacement(String placementId, HashMap<String, Object> placementData) throws Exception {
-		// TODO Auto-generated method stub
 		return batchCoursePlacementsDaoInterface.updateBatchCoursePlacement(placementId, placementData);
 	}
 

@@ -15,6 +15,7 @@ import com.juzzIt.EducationProject.DaoInterface.CourseDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDetailsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeEssentialsDaoInterface;
+import com.juzzIt.EducationProject.DaoInterface.CourseTypeImageDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeKeyHighlightsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeObjectiveDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeProjectsDaoInterface;
@@ -28,7 +29,11 @@ import com.juzzIt.EducationProject.Entity.CourseType;
 import com.juzzIt.EducationProject.Entity.Entities;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
+import com.juzzIt.EducationProject.ServiceInterface.CourseImageServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeBagroundImageServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.CourseTypeServicesInterface;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeVideoServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.ToolImageServiceInterface;
 
 @Service
 public class CourseTypeServicesImplementation implements CourseTypeServicesInterface {
@@ -75,6 +80,23 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 	
 	@Autowired
 	private ToolImageDaoInterface toolImageDaoInterface;
+	
+	@Autowired
+	private CourseTypeBagroundImageServiceInterface courseTypeBagroundImageServiceInterface;
+	
+	@Autowired
+	private CourseTypeImageDaoInterface courseTypeImageDaoInterface;
+	@Autowired
+	private CourseTypeVideoServiceInterface courseTypeVideoServiceInterface;
+	@Autowired
+	private CourseImageServiceInterface courseImageServiceInterface;
+	
+	@Autowired
+	private ToolImageServiceInterface toolImageServiceInterface;
+	
+	@Autowired
+	private CourseTypeImageService courseTypeImageService;
+	
 	
 	@Override
 	public Responce addCourseType(String courseId, HashMap<String, Object> courseType) throws Exception {
@@ -158,14 +180,21 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 		
 		List<HashMap<String , Object>> listMap=new ArrayList<HashMap<String , Object>>();
 		try {
+			
 		Course course = courseDaoInterface.getCourseById(courseId);
 		HashMap<String, Object> map=new HashMap<String, Object>();
-		
 		map.put("course_Id", course.getCourseId());
 		map.put("course_name", course.getCourseName());
 		map.put("course_active", course.getCourseActive());
 		map.put("future_course", course.getFutureCourseStatus());
-		map.put("Course_type", courseTypeDaoInterface.getCourseTypeByCourseId(course.getCourseId()));
+		map.put("course_Image",courseImageServiceInterface.getCoueseImage(course.getCourseId()));
+		List<Map<String, Object>> courseTypes = courseTypeDaoInterface.getCourseTypeByCourseId(course.getCourseId());
+		List<Map<String, Object>> collect = courseTypes.stream().map(result->{
+		result.put("courseType_bagroundImage", courseTypeBagroundImageServiceInterface.getCourseTypeBagroundImage(result.get("course_typeId").toString()));
+		result.put("courseTypeImage", courseTypeImageService.getCourseTypeImage(result.get("course_typeId").toString()));	
+					return result;
+		}).collect(Collectors.toList());
+		map.put("Course_type", collect);
 		listMap.add(map);
 		}catch (Exception e) {
 			throw new Exception("Getting problem while getting All Courses By CourseId");
@@ -198,6 +227,9 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 			map.put("course_typeName", courseType.getCourseTypeName());
 			map.put("course_level", courseType.getCourseLevel());
 			map.put("active_courseType", courseType.getActive_courseType());
+			map.put("courseType_video", courseTypeVideoServiceInterface.getCourseTypeVideo(courseType.getCourseTypeId()));
+			map.put("courseType_bagroundImage", courseTypeBagroundImageServiceInterface.getCourseTypeBagroundImage(courseType.getCourseTypeId()));
+			map.put("courseType_Image", courseTypeImageService.getCourseTypeImage(courseType.getCourseTypeId()));	
 			List<HashMap<String, Object>> courseDataByCourseTypeId = courseDaoInterface.getCourseDataByCourseTypeId(courseTypeId);
 			map.put("course", courseDataByCourseTypeId);
 			map.put("course_Type_Detailes", courseTypeDetailsDaoInterface.getCourseTypeDetails(courseTypeId));
@@ -205,31 +237,22 @@ public class CourseTypeServicesImplementation implements CourseTypeServicesInter
 			map.put("course_Type_Objective", courseTypeObjectiveDaoInterface.getAllObjectiveByCourseTypeId(courseTypeId));
 			map.put("course_Type_KeyHighLight", courseTypeKeyHighlightsDaoInterface.getAllKeyHighlightByCourseTypeId(courseTypeId));
 			map.put("course_Type_Projects", courseTypeProjectsDaoInterface.getAllProjectsByCourseTypeId(courseTypeId));
-			map.put("course_Type_Tools", courseTypeToolsDaoInterface.getAllToolsByCourseTypeId(courseTypeId));
-			
-			
-			 List<Map<String, Object>> allToolsByCourseType = courseTypeToolsDaoInterface.getAllToolsByCourseTypeId(courseTypeId);
-			 allToolsByCourseType.stream().map(tool->{
-				 return null;
+			 List<Map<String, Object>> tools = courseTypeToolsDaoInterface.getAllToolsByCourseTypeId(courseTypeId);
+			 List<Map<String, Object>> collect = tools.stream().map(result->{
+				 result.put("tool_images", toolImageServiceInterface.getToolImage(result.get("tool_id").toString()));
+				 return result;
 			 }).collect(Collectors.toList());
-			 
-			 
-			 
-			
+				map.put("course_Type_Tools", collect);	
 			List<Map<String, Object>> models = moduleDaoInterface.getAllModels(courseTypeId);
 			
 			
 			if(models!=null) {
 				
 			List<Object> Allmodules = models.stream().map(module->{
-				
-				
 				HashMap<String, Object> module_map=new HashMap<String, Object>();
-				
 				module_map.put("module_Id",module.get("module_Id"));
 				module_map.put("module_Title",module.get("module_Title"));
 				module_map.put("active_Module",module.get("active_Module"));
-				
 				if(module.get("module_Id")!=null) {
 				List<Map<String, Object>> lessons = null;
 				try {

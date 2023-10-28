@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,13 @@ public class CourseImageService implements CourseImageServiceInterface {
 			responce.setStatus(false);
 			return responce;
 		}
+		
+		UUID id=UUID.randomUUID();
 		CourseImage  newCourseImage=new CourseImage();
 		newCourseImage.setActiveStatus("D");
 		newCourseImage.setCourse(course);
 		newCourseImage.setImageURL(courseImageData.get("image_URL").toString());
-        newCourseImage.setCourseImageId(courseImageData.get("id").toString());
+        newCourseImage.setCourseImageId(id.toString());
         newCourseImage.setCreatedDate(LocalDateTime.now());
         CourseImage addedCourseImage = courseImageDaoInterface.addNewCourseImage(newCourseImage);
 	        

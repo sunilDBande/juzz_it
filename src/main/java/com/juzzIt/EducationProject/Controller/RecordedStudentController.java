@@ -122,4 +122,67 @@ public class RecordedStudentController {
     public List<Map<String , Object>> getAllTokenMassege(@PathVariable("tokenId") String tokenId){
     	return recordedStudentTokenMassegeInterface.getAllTokenMassege(tokenId);
     }
+   
+   
+   
+   //// recoded student placements
+   
+   
+   public Responce addRecodedStudentPlacements(  String recodedStudentId,HashMap<String, Object> placementData) {
+	   return null;
+   }
+   
+   
+   public Responce deleteRecodedStudentPlacements(String placmentId) {
+	   return null;
+   }
+   
+   
+   public Responce updateRecodedStudentPlacements(String placmentId,HashMap<String, Object> placmentData) {
+	   return null;
+   }
+   
+   public List<Map<String, Object>>  getRecodedStudentPlacements(String recodedStudentId){
+	   return  null;
+   }
+   
+   
+   
+   
+   ///// recodedstudent placement images
+   
+   public Responce addPlacementImage(String placementId,HashMap<String, Object>  imageData) {
+	   return null;
+   }
+   
+   public Responce deletePlacementImage(String imageId) {
+	   return null;
+   }
+   
+   public Responce updatePlacementImages(String imageId,HashMap<String, Object> imageData) {
+	   return null;
+   }
+   
+   
+   public List<Map<String, Object>> getAllPlacementImages(String placementId){
+	   return null;
+   }
+   
+   
+   
+   //// recoded Student classLinks 
+   
+   public Responce addRecodedStudentCLassLinks(String recodedStudentId,HashMap<String, Object> classLinkData) {
+	   return null;
+   }
+   
+   public Responce deleteRecodedStudentCLassLinks(String classLinkId) {
+	   return null;
+   }
+   
+   
+   public List<Map<String, Object>> getRecodedStudentCLassLinks(String recodedStudentId){
+	   return null;
+   }
+   
 }

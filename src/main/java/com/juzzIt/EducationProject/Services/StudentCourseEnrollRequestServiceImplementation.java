@@ -1,5 +1,6 @@
 package com.juzzIt.EducationProject.Services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.juzzIt.EducationProject.Repositary.StudentRepository;
 import com.juzzIt.EducationProject.ServiceInterface.StudentCourseEnrollRequestServiceInterface;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -215,6 +217,7 @@ System.out.println("studentId--> "+studentId);
 			map.put("request_Id", result.getEnrollRequestId());
 			map.put("enroll_Type", result.getCourseEnrollType());
 			map.put("student_Detail", result.getStudentEnrollDetails());
+			map.put("courseTypeData", studentCourseEnrollRequestDaoInterface.getCourseTypeDataByRequestId( result.getEnrollRequestId()));
 			map.put("course_Name", result.getCourseName());
 			map.put("course_TypeName", result.getCourseTypeName());
 			map.put("student_Name", result.getStudentName());
@@ -224,9 +227,48 @@ System.out.println("studentId--> "+studentId);
 			return map;
 		}).collect(Collectors.toList());
 		}catch (Exception e) {
+			
+			e.printStackTrace();
 			throw new Exception("Getting problem while getting All EnrollReq");
 		}
 		return collect;
 	}
+	
+	
+
+//	public HashMap<String, Object> getCourseTypeDataByRequestId(String  requestId){
+//String []data= {"COURSE_TYPE_ID"};
+//		
+//		
+//		String query= " select course_type.course_type_id   "
+//				+ " from student_course_enroll_request , course_type "
+//				+ " where "
+//				+ "  student_course_enroll_request.enroll_request_id='"+requestId+"'" 
+//				+ "  and  student_course_enroll_request.course_type_id = course_type.course_type_id  ";
+//		
+//		
+//		Query createNativeQuery = entityManager.createNativeQuery(query);
+//		List<Object[]> resultList = createNativeQuery.getResultList();
+//		
+//         List<HashMap<String, Object>> finalOutput = new ArrayList<HashMap<String,Object>>();
+//		
+//		
+//		for(Object res[]:resultList) {
+//			  LinkedHashMap<String, Object> lh = new LinkedHashMap<String, Object>();
+//			for(int i=0; i<=res.length-1; i++) {
+//				if (res[i] == null || res[i].toString().trim().isEmpty()) {
+//					lh.put(data[i], "");
+//				} else {
+//					lh.put(data[i], res[i].toString());
+//				}
+//			}
+//			finalOutput.add(lh);
+//		}
+//		System.out.println("finalOutput--> "+finalOutput);
+//		if(finalOutput.isEmpty()) {
+//			return null;
+//		}
+//		return finalOutput.get(0);
+//	}
 
 }

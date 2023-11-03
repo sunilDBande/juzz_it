@@ -15,4 +15,5 @@ public interface BatchCourseStudentDaoInterface {
 	public List<Map<String, Object>> getAllStudent(String batchCourseId);
 	public List<Map<String, Object>> getStudentDetailsByStudentBatchId(String StudentBatchId) throws Exception;
 	public Responce updateBatchCourseStudentDetailes(String batchCourseStudentId,	HashMap<String, Object> batchCourseStudentDetails) throws Exception ;
+	public List<HashMap<String, Object>> getAllStudentEnrollBatchsByStudentId(String studentId);
 }

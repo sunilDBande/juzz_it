@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentTokenDaoInterface;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Entity.RecordedStudentToken;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.RecordedStudentTokenServiceInterface;
@@ -27,38 +26,30 @@ public class RecordedStudentTokenService implements RecordedStudentTokenServiceI
 	
 		
 		Responce responce=new Responce();
-		
 		if(tokenData.get("tokenName")==null||tokenData.get("tokenDesc")==null) {
 			responce.setMassege("");
 			responce.setStatus(false);
 			return responce;
 		}
-		
-		
-		RecordedStudent recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recordedStudentId);
-		
+		RecordedStudentBatch recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recordedStudentId);
 		if(recordedStudent==null) {
-			responce.setMassege("");
+			responce.setMassege("student with the given id not found");
 			responce.setStatus(false);
 			return responce;
 		}
-		
 		RecordedStudentToken recordedStudentToken=new RecordedStudentToken();
-		recordedStudentToken.setRecordedStudent(recordedStudent);
+		recordedStudentToken.setRecordedStudentBatch(recordedStudent);
 		recordedStudentToken.setActiveStatus("A");
 		recordedStudentToken.setCreatedDateTime(LocalDateTime.now());
 		recordedStudentToken.setTokenDesc(tokenData.get("tokenDesc").toString());
 		recordedStudentToken.setTokenName(tokenData.get("tokenName").toString());
-		
 		RecordedStudentToken addedToken = recordedStudentTokenDaoInterface.addNewToken(recordedStudentToken);
-		
 		if(addedToken==null) {
 			responce.setMassege("failed to create the token");
 			responce.setStatus(false);
 		}
 		responce.setMassege("token added successfully");
 		responce.setStatus(true);
-		
 		return responce;
 	}
 

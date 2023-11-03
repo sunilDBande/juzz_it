@@ -4,16 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.juzzIt.EducationProject.DaoInterface.RecodedStudentClassLinkDaoDaoInterface;
 import com.juzzIt.EducationProject.Entity.RecodedStudentClassLinks;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.RecodedStudentClassLinksRepository;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -73,15 +70,13 @@ public class RecodedStudentClassLinkDao implements RecodedStudentClassLinkDaoDao
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllRecodedClassLinks(RecordedStudent recordedStudent) {
+	public List<Map<String, Object>> getAllRecodedClassLinks(RecordedStudentBatch recordedStudentBatch) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<RecodedStudentClassLinks> createQuery = criteriaBuilder.createQuery(RecodedStudentClassLinks.class);
 		Root<RecodedStudentClassLinks> root = createQuery.from(RecodedStudentClassLinks.class);
-	
-		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudent"), recordedStudent);
+		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudentBatch"), recordedStudentBatch);
 		createQuery.select(root).where(predicate);
 		List<RecodedStudentClassLinks> resultList = entityManager.createQuery(createQuery).getResultList();
-		
 		List<Map<String, Object>> collect = resultList.stream().map(result->{
 			Map<String, Object> map=new LinkedHashMap<String, Object>();
 			map.put("class_Id", result.getClassId());

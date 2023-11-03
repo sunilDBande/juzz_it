@@ -5,16 +5,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.TeacherDaoInterface;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Models.Responce;
-import com.juzzIt.EducationProject.Repositary.RecordedStudentRepository;
-
+import com.juzzIt.EducationProject.Repositary.RecordedStudentBatchRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -24,7 +21,7 @@ import jakarta.persistence.criteria.Root;
 public class RecordedStudentDao implements RecordedStudentDaoInterface {
 
 	@Autowired
-	private RecordedStudentRepository recordedStudentRepository;
+	private RecordedStudentBatchRepository recordedStudentRepository;
 	 
 	@Autowired
 	private EntityManager entityManager;
@@ -33,19 +30,19 @@ public class RecordedStudentDao implements RecordedStudentDaoInterface {
 	private TeacherDaoInterface teacherDaoInterface;
 
 	@Override
-	public RecordedStudent addRecordedStudent(RecordedStudent recordedStudent) {
-		return recordedStudentRepository.save(recordedStudent);
+	public RecordedStudentBatch addRecordedStudent(RecordedStudentBatch  recordedStudentBatch) {
+		return recordedStudentRepository.save(recordedStudentBatch);
 	}
 
 	@Override
-	public RecordedStudent getRecordedStudentById(String recordedStudentId) {
+	public RecordedStudentBatch getRecordedStudentById(String recordedStudentId) {
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<RecordedStudent> createQuery = criteriaBuilder.createQuery(RecordedStudent.class);
-		Root<RecordedStudent> root = createQuery.from(RecordedStudent.class);
+		CriteriaQuery<RecordedStudentBatch> createQuery = criteriaBuilder.createQuery(RecordedStudentBatch.class);
+		Root<RecordedStudentBatch> root = createQuery.from(RecordedStudentBatch.class);
 		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudentId"), recordedStudentId);
 		createQuery.select(root).where(predicate);
-		List<RecordedStudent> resultList = entityManager.createQuery(createQuery).getResultList();
+		List<RecordedStudentBatch> resultList = entityManager.createQuery(createQuery).getResultList();
 		if(resultList.isEmpty()) {
 			return null;
 			}
@@ -57,7 +54,7 @@ public class RecordedStudentDao implements RecordedStudentDaoInterface {
 	@Override
 	public Responce assignMenterToStudent(String recordedStudentId, String teacherId) {
 	
-		RecordedStudent recordedStudent = getRecordedStudentById(recordedStudentId);
+		RecordedStudentBatch recordedStudent = getRecordedStudentById(recordedStudentId);
 		
 		Responce responce=new Responce();
 if(recordedStudent==null) {
@@ -73,7 +70,7 @@ if(recordedStudent.getTeacherId().equalsIgnoreCase("NO")) {
 	return responce;
 }
 recordedStudent.setTeacherId(teacherId);
-RecordedStudent updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
+RecordedStudentBatch updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
 if(updatedRecordedStudent==null) {
 	responce.setMassege("failed to add the menter");
 	responce.setStatus(false);
@@ -87,7 +84,7 @@ responce.setStatus(true);
 	@Override
 	public Responce deleteRecordedStudent(String recordedStudentId) {
 
-		RecordedStudent recordedStudent = getRecordedStudentById(recordedStudentId);
+		RecordedStudentBatch recordedStudent = getRecordedStudentById(recordedStudentId);
 		
 		Responce responce=new Responce();
 if(recordedStudent==null) {
@@ -107,7 +104,7 @@ responce.setStatus(true);
 	public Responce updateRecorededStudent(String recoredStudentId, HashMap<String, Object> studentData) {
 		
 
-		RecordedStudent recordedStudent = getRecordedStudentById(recoredStudentId);
+		RecordedStudentBatch recordedStudent = getRecordedStudentById(recoredStudentId);
 		
 		Responce responce=new Responce();
 if(recordedStudent==null) {
@@ -130,6 +127,7 @@ if(recordedStudent.getStudentPermitionStatus().equalsIgnoreCase("D")) {
 }else {
 	recordedStudent.setStudentPermitionStatus("D");
 }
+
 }
 if(studentData.get("student_Placement_Status")!=null) {
 	if(recordedStudent.getStudentPlacementStatus().equalsIgnoreCase("D")) {
@@ -150,7 +148,7 @@ if(studentData.get("menter_Permition_Status")!=null) {
 	}
 }
 
-RecordedStudent updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
+RecordedStudentBatch updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
 if(updatedRecordedStudent==null) {
 	responce.setMassege("failed to update the student data");
 	responce.setStatus(false);
@@ -164,11 +162,11 @@ responce.setStatus(true);
 	@Override
 	public List<Map<String, Object>> getAllRecordedStudent() {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<RecordedStudent> createQuery = criteriaBuilder.createQuery(RecordedStudent.class);
-		Root<RecordedStudent> root = createQuery.from(RecordedStudent.class);
+		CriteriaQuery<RecordedStudentBatch> createQuery = criteriaBuilder.createQuery(RecordedStudentBatch.class);
+		Root<RecordedStudentBatch> root = createQuery.from(RecordedStudentBatch.class);
 	;
 		createQuery.select(root);
-		   List<RecordedStudent> resultList = entityManager.createQuery(createQuery).getResultList();
+		   List<RecordedStudentBatch> resultList = entityManager.createQuery(createQuery).getResultList();
 
 		   List<Map<String, Object>> collect = resultList.stream().map(result->{
 			Map<String, Object> map=new LinkedHashMap<String,Object>();
@@ -198,7 +196,7 @@ responce.setStatus(true);
 
 	@Override
 	public Responce deleteMenterFromStudent(String recordedStudentId) {
-	RecordedStudent recordedStudent = getRecordedStudentById(recordedStudentId);
+		RecordedStudentBatch recordedStudent = getRecordedStudentById(recordedStudentId);
 		
 		Responce responce=new Responce();
 if(recordedStudent==null) {
@@ -210,7 +208,7 @@ if(recordedStudent==null) {
 
 recordedStudent.setTeacherId("NO");
 
-RecordedStudent updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
+RecordedStudentBatch updatedRecordedStudent = recordedStudentRepository.save(recordedStudent);
 
 if(updatedRecordedStudent==null) {
 	responce.setMassege("failed to delete the menter");
@@ -221,6 +219,65 @@ responce.setMassege("successfully deleted menter");
 responce.setStatus(true);
 		return responce;
 		
+	}
+
+	@Override
+	public List<Map<String, Object>> getRecordedStudentWithOutMenter() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<RecordedStudentBatch> createQuery = criteriaBuilder.createQuery(RecordedStudentBatch.class);
+		Root<RecordedStudentBatch> root = createQuery.from(RecordedStudentBatch.class);
+	Predicate predicate = criteriaBuilder.equal(root.get("teacherId"), "NO");
+		createQuery.select(root);
+		   List<RecordedStudentBatch> resultList = entityManager.createQuery(createQuery).getResultList();
+
+		   List<Map<String, Object>> collect = resultList.stream().map(result->{
+			Map<String, Object> map=new LinkedHashMap<String,Object>();
+		
+			map.put("RECORDED_STUDENT_ID", result);
+			map.put("COURSE_NAME", result);
+			map.put("COURSE_TYPE", result);
+			map.put("STUDENT_PERMITION_STATUS", result);
+			map.put("STUDENT_PLACEMNENT_STATUS", result);
+			map.put("STUDENT_NAME", result);
+			map.put("ENROLL_TYPE", result);
+			map.put("MENTER_PERMITION_STATUS", result);
+			if( result.getTeacherId().equalsIgnoreCase("NO")) {
+				map.put("TEACHER","");
+			}else {
+				map.put("TEACHER", teacherDaoInterface.getTeacherById(result.getTeacherId()));
+			}	
+			return map;
+		}).collect(Collectors.toList());
+	return collect;
+	}
+
+	@Override
+	public List<Map<String, Object>> getRecordedStudentWithMenter() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<RecordedStudentBatch> createQuery = criteriaBuilder.createQuery(RecordedStudentBatch.class);
+		Root<RecordedStudentBatch> root = createQuery.from(RecordedStudentBatch.class);
+		Predicate predicate = criteriaBuilder.notEqual(root.get("teacherId"), "NO");
+		createQuery.select(root);
+		   List<RecordedStudentBatch> resultList = entityManager.createQuery(createQuery).getResultList();
+		   List<Map<String, Object>> collect = resultList.stream().map(result->{
+			Map<String, Object> map=new LinkedHashMap<String,Object>();
+		
+			map.put("RECORDED_STUDENT_ID", result);
+			map.put("COURSE_NAME", result);
+			map.put("COURSE_TYPE", result);
+			map.put("STUDENT_PERMITION_STATUS", result);
+			map.put("STUDENT_PLACEMNENT_STATUS", result);
+			map.put("STUDENT_NAME", result);
+			map.put("ENROLL_TYPE", result);
+			map.put("MENTER_PERMITION_STATUS", result);
+			if( result.getTeacherId().equalsIgnoreCase("NO")) {
+				map.put("TEACHER","");
+			}else {
+				map.put("TEACHER", teacherDaoInterface.getTeacherById(result.getTeacherId()));
+			}	
+			return map;
+		}).collect(Collectors.toList());
+		return collect;
 	}
 	
 	

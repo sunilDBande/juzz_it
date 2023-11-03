@@ -45,32 +45,13 @@ public class Student implements Serializable{
 	private List<BatchCourseStudent> batchCourseStudent;
 	
 	@OneToMany(mappedBy = "student")
-	private List<RecordedStudent> recordedStudent;
+	private List<RecordedStudentBatch>  recordedStudentBatchs;
 	
 	
 	
 	public Student() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-
-
-	public Student(String studentId, String studentName, String studentEmail, String studentPassword,
-			long studentMobileNumber, String studentAddress, LocalDateTime createdDate, LocalDateTime updatedDate,
-			String student_Enroll, String role, List<BatchCourseStudent> batchCourseStudent) {
-		super();
-		this.studentId = studentId;
-		this.studentName = studentName;
-		this.studentEmail = studentEmail;
-		this.studentPassword = studentPassword;
-		this.studentMobileNumber = studentMobileNumber;
-		this.studentAddress = studentAddress;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
-		this.student_Enroll = student_Enroll;
-		this.role = role;
-		this.batchCourseStudent = batchCourseStudent;
 	}
 
 
@@ -207,15 +188,47 @@ public class Student implements Serializable{
 
 
 
+	public List<RecordedStudentBatch> getRecordedStudentBatchs() {
+		return recordedStudentBatchs;
+	}
+
+
+
+	public void setRecordedStudentBatchs(List<RecordedStudentBatch> recordedStudentBatchs) {
+		this.recordedStudentBatchs = recordedStudentBatchs;
+	}
+
+
+
+	public Student(String studentId, String studentName, String studentEmail, String studentPassword,
+			long studentMobileNumber, String studentAddress, LocalDateTime createdDate, LocalDateTime updatedDate,
+			String student_Enroll, String role, List<BatchCourseStudent> batchCourseStudent,
+			List<RecordedStudentBatch> recordedStudentBatchs) {
+		super();
+		this.studentId = studentId;
+		this.studentName = studentName;
+		this.studentEmail = studentEmail;
+		this.studentPassword = studentPassword;
+		this.studentMobileNumber = studentMobileNumber;
+		this.studentAddress = studentAddress;
+		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
+		this.student_Enroll = student_Enroll;
+		this.role = role;
+		this.batchCourseStudent = batchCourseStudent;
+		this.recordedStudentBatchs = recordedStudentBatchs;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentEmail=" + studentEmail
 				+ ", studentPassword=" + studentPassword + ", studentMobileNumber=" + studentMobileNumber
 				+ ", studentAddress=" + studentAddress + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
 				+ ", student_Enroll=" + student_Enroll + ", role=" + role + ", batchCourseStudent=" + batchCourseStudent
-				+ "]";
+				+ ", recordedStudentBatchs=" + recordedStudentBatchs + "]";
 	}
-	
-	
-	
+
+
 }

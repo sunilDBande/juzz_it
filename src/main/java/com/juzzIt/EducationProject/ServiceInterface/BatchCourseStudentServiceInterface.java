@@ -15,4 +15,5 @@ public interface BatchCourseStudentServiceInterface {
 	public Responce deleteBatchCourseStudentById(String batchCourseStudentId) throws Exception;
 	public List<Map<String, Object>>  getAllstudentsByBatchCourse(String batchCourseId);
 	public Responce updateBatchCourseStudentDetailes( String batchCourseStudentId, HashMap<String, Object> batchCourseStudentDetails) throws Exception;
+	public List<HashMap<String, Object>>   getAllStudentEnrollBatchsByStudentId( String studentId);
 }

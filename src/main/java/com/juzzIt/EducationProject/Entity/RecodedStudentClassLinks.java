@@ -31,8 +31,8 @@ public class RecodedStudentClassLinks {
 	
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name="RECODED_STUDENT_ID")
-	private RecordedStudent recordedStudent;
+	@JoinColumn(name="RECODED_STUDENT_BATCH_ID")
+	private RecordedStudentBatch recordedStudentBatch;
 
 
 	public RecodedStudentClassLinks() {
@@ -42,7 +42,7 @@ public class RecodedStudentClassLinks {
 
 
 	public RecodedStudentClassLinks(String classId, String classTitle, String subjectName, LocalDateTime classDate,
-			String classTime, String classLink, RecordedStudent recordedStudent) {
+			String classTime, String classLink, RecordedStudentBatch recordedStudentBatch) {
 		super();
 		this.classId = classId;
 		this.classTitle = classTitle;
@@ -50,7 +50,7 @@ public class RecodedStudentClassLinks {
 		this.classDate = classDate;
 		this.classTime = classTime;
 		this.classLink = classLink;
-		this.recordedStudent = recordedStudent;
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
 
 
@@ -114,13 +114,13 @@ public class RecodedStudentClassLinks {
 	}
 
 
-	public RecordedStudent getRecordedStudent() {
-		return recordedStudent;
+	public RecordedStudentBatch getRecordedStudentBatch() {
+		return recordedStudentBatch;
 	}
 
 
-	public void setRecordedStudent(RecordedStudent recordedStudent) {
-		this.recordedStudent = recordedStudent;
+	public void setRecordedStudentBatch(RecordedStudentBatch recordedStudentBatch) {
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
 
 
@@ -128,10 +128,10 @@ public class RecodedStudentClassLinks {
 	public String toString() {
 		return "RecodedStudentClassLinks [classId=" + classId + ", classTitle=" + classTitle + ", subjectName="
 				+ subjectName + ", classDate=" + classDate + ", classTime=" + classTime + ", classLink=" + classLink
-				+ ", recordedStudent=" + recordedStudent + "]";
+				+ ", recordedStudentBatch=" + recordedStudentBatch + "]";
 	}
-	
-	
+
+
 	
 	
 }

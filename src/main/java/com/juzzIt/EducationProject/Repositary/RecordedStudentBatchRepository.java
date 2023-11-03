@@ -3,8 +3,8 @@ package com.juzzIt.EducationProject.Repositary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 @Repository
-public interface RecordedStudentRepository  extends JpaRepository<RecordedStudent, String>{
+public interface RecordedStudentBatchRepository  extends JpaRepository<RecordedStudentBatch, String>{
 
 }

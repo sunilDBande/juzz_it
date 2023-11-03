@@ -27,8 +27,8 @@ public class RecordedStudentPlacemants {
 	
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name="RECODED_STUDENT_ID")
-	private RecordedStudent recordedStudent;
+	@JoinColumn(name="RECODED_STUDENT_BATCH_ID")
+	private RecordedStudentBatch recordedStudentBatch;
 
 
 	public RecordedStudentPlacemants() {
@@ -38,22 +38,14 @@ public class RecordedStudentPlacemants {
 
 
 	public RecordedStudentPlacemants(String placementId, String companyName, String companyIntroduction,
-			String active_Placement, String applyLink, RecordedStudent recordedStudent) {
+			String active_Placement, String applyLink, RecordedStudentBatch recordedStudentBatch) {
 		super();
 		this.placementId = placementId;
 		this.companyName = companyName;
 		this.companyIntroduction = companyIntroduction;
 		this.active_Placement = active_Placement;
 		this.applyLink = applyLink;
-		this.recordedStudent = recordedStudent;
-	}
-
-
-	@Override
-	public String toString() {
-		return "RecordedStudentPlacemants [placementId=" + placementId + ", companyName=" + companyName
-				+ ", companyIntroduction=" + companyIntroduction + ", active_Placement=" + active_Placement
-				+ ", applyLink=" + applyLink + ", recordedStudent=" + recordedStudent + "]";
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
 
 
@@ -107,12 +99,25 @@ public class RecordedStudentPlacemants {
 	}
 
 
-	public RecordedStudent getRecordedStudent() {
-		return recordedStudent;
+	public RecordedStudentBatch getRecordedStudentBatch() {
+		return recordedStudentBatch;
 	}
 
 
-	public void setRecordedStudent(RecordedStudent recordedStudent) {
-		this.recordedStudent = recordedStudent;
+	public void setRecordedStudentBatch(RecordedStudentBatch recordedStudentBatch) {
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
+
+
+	@Override
+	public String toString() {
+		return "RecordedStudentPlacemants [placementId=" + placementId + ", companyName=" + companyName
+				+ ", companyIntroduction=" + companyIntroduction + ", active_Placement=" + active_Placement
+				+ ", applyLink=" + applyLink + ", recordedStudentBatch=" + recordedStudentBatch + "]";
+	}
+
+
+
+
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,11 +50,13 @@ if(topic==null) {
 }
 
 TopicVideo newTopicVideo=new TopicVideo();
+UUID id=UUID.randomUUID();
+
 
 newTopicVideo.setVedioHeading(topicVideoData.get("vedio_Heading").toString());
 newTopicVideo.setVideoURL(topicVideoData.get("video_URL").toString());
 newTopicVideo.setTopic(topic);
-newTopicVideo.setTopicVideoId(topicVideoData.get("id").toString());
+newTopicVideo.setTopicVideoId(id.toString());
 newTopicVideo.setActiveStatus("D");
 		
 TopicVideo addedTopicVideo = topicVideoDaoInterface.addNewTopicVideo(newTopicVideo);

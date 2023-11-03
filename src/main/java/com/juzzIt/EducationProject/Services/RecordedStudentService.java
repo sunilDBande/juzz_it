@@ -3,10 +3,10 @@ package com.juzzIt.EducationProject.Services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.juzzIt.EducationProject.DaoInterface.CourseDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentDaoInterface;
@@ -15,9 +15,8 @@ import com.juzzIt.EducationProject.DaoInterface.StudentCourseEnrollRequestDaoInt
 import com.juzzIt.EducationProject.DaoInterface.StudentDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.StudentEnrollDetailsDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.TeacherDaoInterface;
-import com.juzzIt.EducationProject.Entity.Course;
 import com.juzzIt.EducationProject.Entity.CourseType;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Entity.SalesExecutive;
 import com.juzzIt.EducationProject.Entity.Student;
 import com.juzzIt.EducationProject.Entity.StudentEnrollDetails;
@@ -55,7 +54,7 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 	
 	
 	@Override
-	public Responce addRecordedStudent(String courseTypeId, String studentId, String requestId, String salesExecutiveId) {
+	public Responce addRecordedStudent(String courseTypeId, String studentId, String requestId) {
 		
 	
 		Responce responce= new Responce();
@@ -91,31 +90,23 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 			responce.setStatus(false);
 			return responce;
 		}
-		
-		SalesExecutive salesExecutive = salesExecutiveDaoInterface.getSalesExecutiveById(salesExecutiveId);
-		
-		if(salesExecutive==null) {
-			responce.setMassege("seles executive for the given id not found");
-			responce.setStatus(false);
-			return responce;
-		}
+	
 		
 		
-		
-		RecordedStudent recordedStudent=new RecordedStudent();
+		RecordedStudentBatch recordedStudent=new RecordedStudentBatch();
 		
 		if(courseData.get(0).get("course_name")!=null) {
 			recordedStudent.setCourseName(courseData.get(0).get("course_name").toString());
 		}
 		else {
 			recordedStudent.setCourseName("NO");
-		}
-		
+                }
+		UUID id=UUID.randomUUID();
+		recordedStudent.setRecordedStudentId(id.toString());
 		recordedStudent.setCourseType(courseType);
 		recordedStudent.setStudent(student);
 		recordedStudent.setStudentEnrollDetails(enrollDetails);
 		recordedStudent.setTeacherId("NO");
-		recordedStudent.setSalesExecutive(salesExecutive);
 		recordedStudent.setCourseTypeName(courseType.getCourseTypeName());
 		recordedStudent.setStudentPermitionStatus("D");
 		recordedStudent.setStudentPlacementStatus("D");
@@ -123,7 +114,7 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 		recordedStudent.setStudentName(enrollDetails.getStudentName());
 		recordedStudent.setEnrollTyp("recorded");
 	
-		RecordedStudent addedRecordedStudent = recordedStudentDaoInterface.addRecordedStudent(recordedStudent);
+		RecordedStudentBatch addedRecordedStudent = recordedStudentDaoInterface.addRecordedStudent(recordedStudent);
 	
 		if(addedRecordedStudent==null) {
 			responce.setMassege("failed to add the student");
@@ -159,7 +150,6 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 
 	@Override
 	public Responce updateRecorededStudent(String recorddStudentId, HashMap<String, Object> studentData) {
-
 		return recordedStudentDaoInterface.updateRecorededStudent(recorddStudentId, studentData);
 	}
 
@@ -167,11 +157,17 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 	public List<Map<String, Object>> getAllRecordedStudent() {
 				return recordedStudentDaoInterface.getAllRecordedStudent();
 	}
-
 	@Override
 	public Responce deleteRecordedStudentMenter(String recordedStudentId) {
-
 		return recordedStudentDaoInterface.deleteMenterFromStudent(recordedStudentId);
+	}
+	@Override
+	public List<Map<String, Object>> getRecordedStudentWithOutMenter() {
+		return recordedStudentDaoInterface.getRecordedStudentWithOutMenter();
+	}
+	@Override
+	public List<Map<String, Object>> getRecordedStudentWithMenter() {
+		return recordedStudentDaoInterface.getRecordedStudentWithMenter();
 	}
 
 }

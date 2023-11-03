@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentTokenDaoInterface;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Entity.RecordedStudentToken;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.RecordedStudentTokenRepository;
@@ -133,13 +133,13 @@ public class RecordedStudentTokenDao implements RecordedStudentTokenDaoInterface
 	}
 
 	@Override
-	public List<Map<String, Object>> getTokenByRecordedStudentId(RecordedStudent recordedStudent) {
+	public List<Map<String, Object>> getTokenByRecordedStudentId(RecordedStudentBatch recordedStudentBatch  ) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<RecordedStudentToken> createQuery = criteriaBuilder.createQuery(RecordedStudentToken.class);
 	
 		Root<RecordedStudentToken> root = createQuery.from(RecordedStudentToken.class);
 		
-		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudent"), recordedStudent);
+		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudentBatch"), recordedStudentBatch);
 		createQuery.select(root).where(predicate);
 		List<RecordedStudentToken> resultList = entityManager.createQuery(createQuery).getResultList();
 		

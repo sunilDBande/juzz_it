@@ -66,8 +66,8 @@ public class SecurityConfig {
                 		.anyRequest()
                         .authenticated())
      .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+       .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     

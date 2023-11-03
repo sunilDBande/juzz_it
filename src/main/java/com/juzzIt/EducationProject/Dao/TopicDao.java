@@ -172,7 +172,7 @@ CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Topic> createQuery = criteriaBuilder.createQuery(Topic.class);
 		Root<Topic> root = createQuery.from(Topic.class);
 		
-		Predicate predicate = criteriaBuilder.equal(root.get(""), topicIt);
+		Predicate predicate = criteriaBuilder.equal(root.get("topicId"), topicIt);
 		
 		createQuery.select(root).where(predicate);
 		

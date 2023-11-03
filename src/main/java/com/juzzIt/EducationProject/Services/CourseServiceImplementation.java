@@ -152,7 +152,7 @@ public class CourseServiceImplementation implements CourseServiceInterface {
 				result.put("courseTypeImage", courseTypeImageService.getCourseTypeImage(result.get("course_typeId").toString()));	
 						return result;
 			}).collect(Collectors.toList());
-			course.put("courseType_Id", collect);
+			course.put("courseType", collect);
 			return course;
 		}).collect(Collectors.toList());
 	}

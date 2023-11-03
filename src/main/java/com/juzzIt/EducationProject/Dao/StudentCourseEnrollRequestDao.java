@@ -1,5 +1,9 @@
 package com.juzzIt.EducationProject.Dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,9 @@ import com.juzzIt.EducationProject.Entity.StudentEnrollDetails;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.StudentCourseEnrollRequestRepository;
 import com.juzzIt.EducationProject.Repositary.StudentEnrollDetailsRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 @Component
 public class StudentCourseEnrollRequestDao  implements StudentCourseEnrollRequestDaoInterface{
 
@@ -21,6 +28,9 @@ public class StudentCourseEnrollRequestDao  implements StudentCourseEnrollReques
 
 	@Autowired
 	private StudentEnrollDetailsRepository studentEnrollDetailsRepository;
+	
+	@Autowired
+	private EntityManager entityManager;
 	
 	@Override
 	public Responce deleteRequest(String requestId) throws Exception {
@@ -90,6 +100,39 @@ public class StudentCourseEnrollRequestDao  implements StudentCourseEnrollReques
 		}
 		return false;
 
+	}
+
+
+	@Override
+	public HashMap<String, Object> getCourseTypeDataByRequestId(String requestId) {
+String []data= {"COURSE_TYPE_ID","course_type_name"};
+		
+		
+		String query= " select course_type.course_type_id ,course_type.course_type_name  "
+				+ " from student_course_enroll_request , course_type "
+				+ " where "
+				+ "  student_course_enroll_request.enroll_request_id='"+requestId+"'" 
+				+ "  and  student_course_enroll_request.course_type_id = course_type.course_type_id  ";
+		
+		Query createNativeQuery = entityManager.createNativeQuery(query);
+		List<Object[]> resultList = createNativeQuery.getResultList();
+         List<HashMap<String, Object>> finalOutput = new ArrayList<HashMap<String,Object>>();
+		for(Object res[]:resultList) {
+			  LinkedHashMap<String, Object> lh = new LinkedHashMap<String, Object>();
+			for(int i=0; i<=res.length-1; i++) {
+				if (res[i] == null || res[i].toString().trim().isEmpty()) {
+					lh.put(data[i], "");
+				} else {
+					lh.put(data[i], res[i].toString());
+				}
+			}
+			finalOutput.add(lh);
+		}
+		System.out.println("finalOutput--> "+finalOutput);
+		if(finalOutput.isEmpty()) {
+			return null;
+		}
+		return finalOutput.get(0);	
 	}
 	
 	

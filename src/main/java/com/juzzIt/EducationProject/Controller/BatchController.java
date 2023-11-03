@@ -163,6 +163,11 @@ public class BatchController {
 	}
 	
 	
+ @GetMapping("/student/{studentId}/batchCourse/Details")
+	public List<HashMap<String, Object>>   getAllStudentEnrollBatchsByStudentId(@PathVariable("studentId") String studentId){
+	return batchCourseStudentServiceInterface.getAllStudentEnrollBatchsByStudentId(studentId);
+	}
+	
 	
 	
 	////public batch course subject ****
@@ -180,7 +185,6 @@ public class BatchController {
 	
 	@GetMapping("/batchCourses/{batchCourseId}/subjects")
 	public List<Map<String , Object>> getAllSubjectByBatchCourseId(@PathVariable("batchCourseId") String batchCourseId) throws Exception{
-		
 		return batchCourseSubjectServiceInterface.getAllSubjectByBatchCourseId(batchCourseId);
 	}
 	

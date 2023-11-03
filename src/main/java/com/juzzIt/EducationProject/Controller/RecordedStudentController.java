@@ -5,52 +5,54 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.RecordedStudentServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.RecordedStudentTokenMassegeInterface;
 import com.juzzIt.EducationProject.ServiceInterface.RecordedStudentTokenServiceInterface;
 
+
+@RestController
+@RequestMapping("/recoded/bch")
+@CrossOrigin(origins = "*")
 public class RecordedStudentController {
 	
 	@Autowired
 	private RecordedStudentServiceInterface recordedStudentServiceInterface;
-	
 	@Autowired
 	private RecordedStudentTokenServiceInterface recordedStudentTokenServiceInterface;
-	
 	@Autowired
 	private RecordedStudentTokenMassegeInterface recordedStudentTokenMassegeInterface;
 	
 	
 	
-	@PostMapping("/courseTypes/{courseTypeId}/recordedStudents/{studentId}/{requestId}/{salesExecutiveId}")
-	public Responce addRecordedStudent(@PathVariable("courseTypeId") String courseTypeId,@PathVariable("studentId")String studentId,@PathVariable("requestId")String requestId ,@PathVariable("salesExecutiveId") String salesExecutiveId) {
-		return recordedStudentServiceInterface.addRecordedStudent(courseTypeId, studentId, requestId, salesExecutiveId);
+	@PostMapping("/courseTypes/{courseTypeId}/recordedStudents/{studentId}/{requestId}")
+	public Responce addRecordedStudent(@PathVariable("courseTypeId") String courseTypeId,@PathVariable("studentId")String studentId,@PathVariable("requestId")String requestId ) {
+		return recordedStudentServiceInterface.addRecordedStudent(courseTypeId, studentId, requestId);
 	}
-
-	
 	@PostMapping("/recordedStudents/{recordedStudentId}/teacher/{teacherId}")
 	public Responce assignMenterToStudent(@PathVariable("recordedStudentId") String recordedStudentId,@PathVariable("teacherId")String teacherId) {
 		return recordedStudentServiceInterface.assignMenterToStudent(recordedStudentId, teacherId);
 	}
-	
 	@DeleteMapping("/recordedStudents/{recordedStudentId}")
 	public Responce deleteRecordedStudent(@PathVariable("recordedStudentId")String recordedStudentId) {
 		return recordedStudentServiceInterface.deleteRecordedStudent(recordedStudentId);
 	}
 	
 	
-	@DeleteMapping("/recordedStudents/{recordedStudentId}")
-	public Responce deleteRecordedStudentMenter(@PathVariable("recordedStudentId")String recordedStudentId) {
-		return recordedStudentServiceInterface.deleteRecordedStudentMenter(recordedStudentId);
-	}
+//	@DeleteMapping("/recordedStudents/{recordedStudentId}")
+//	public Responce deleteRecordedStudentMenter(@PathVariable("recordedStudentId")String recordedStudentId) {
+//		return recordedStudentServiceInterface.deleteRecordedStudentMenter(recordedStudentId);
+//	}
 	
 	
 	@PutMapping("/recordedStudents/{recordedStudentId}")
@@ -62,6 +64,16 @@ public class RecordedStudentController {
 	public List<Map<String, Object>> getAllRecordedStudent(){
 		return recordedStudentServiceInterface.getAllRecordedStudent();
 	}
+    
+    @GetMapping("/recordedStudents/noMenter")
+    public List<Map<String, Object>> getRecordedStudentWithOutMenter(){
+     return recordedStudentServiceInterface.getRecordedStudentWithOutMenter();
+    }
+    
+    @GetMapping("/recordedStudents/withMenter")
+    public List<Map<String, Object>> getRecordedStudentWithMenter(){
+        return recordedStudentServiceInterface.getRecordedStudentWithMenter();
+       }
     
     
     

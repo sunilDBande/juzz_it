@@ -162,6 +162,12 @@ BatchCourseStudent addStodentTobatch = batchCourseStudentDaoInterface.addStodent
 		return batchCourseStudentDaoInterface.updateBatchCourseStudentDetailes(batchCourseStudentId, batchCourseStudentDetails);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> getAllStudentEnrollBatchsByStudentId(String studentId) {
+		
+		return batchCourseStudentDaoInterface.getAllStudentEnrollBatchsByStudentId(studentId);
+	}
+
 	
 	
 	

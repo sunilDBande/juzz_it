@@ -38,7 +38,7 @@ public class StudentEnrollDetails implements Serializable{
 	private BatchCourseStudent batchCourseStudent;
 	
 	@OneToOne(mappedBy = "studentEnrollDetails")
-	private RecordedStudent recordedStudent;
+	private RecordedStudentBatch recordedStudentBatch;
 	
 	
 
@@ -50,7 +50,8 @@ public class StudentEnrollDetails implements Serializable{
 
 
 	public StudentEnrollDetails(String enrollDetailsId, String studentName, String studentEmail, long mobileNubber,
-			String country, String state, String district, int pinCode, BatchCourseStudent batchCourseStudent) {
+			String country, String state, String district, int pinCode, BatchCourseStudent batchCourseStudent,
+			RecordedStudentBatch recordedStudentBatch) {
 		super();
 		this.enrollDetailsId = enrollDetailsId;
 		this.studentName = studentName;
@@ -61,6 +62,7 @@ public class StudentEnrollDetails implements Serializable{
 		this.district = district;
 		this.pinCode = pinCode;
 		this.batchCourseStudent = batchCourseStudent;
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
 
 
@@ -173,12 +175,25 @@ public class StudentEnrollDetails implements Serializable{
 
 
 
+	public RecordedStudentBatch getRecordedStudentBatch() {
+		return recordedStudentBatch;
+	}
+
+
+
+	public void setRecordedStudentBatch(RecordedStudentBatch recordedStudentBatch) {
+		this.recordedStudentBatch = recordedStudentBatch;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "StudentEnrollDetails [enrollDetailsId=" + enrollDetailsId + ", studentName=" + studentName
 				+ ", studentEmail=" + studentEmail + ", mobileNubber=" + mobileNubber + ", country=" + country
 				+ ", state=" + state + ", district=" + district + ", pinCode=" + pinCode + ", batchCourseStudent="
-				+ batchCourseStudent + "]";
+				+ batchCourseStudent + ", recordedStudentBatch=" + recordedStudentBatch + "]";
 	}
+
 
 }

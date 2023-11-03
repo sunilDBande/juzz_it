@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.juzzIt.EducationProject.DaoInterface.RecodedStudentClassLinkDaoDaoInterface;
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentDaoInterface;
 import com.juzzIt.EducationProject.Entity.RecodedStudentClassLinks;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.RecodedStudentClassLinkServiceInterface;
 
@@ -41,7 +41,7 @@ public class RecodedStudentClassLinkService implements RecodedStudentClassLinkSe
 		}
 		
 		
-		RecordedStudent recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recodedStudentId);
+		RecordedStudentBatch recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recodedStudentId);
 		
 		
 		if(recordedStudent==null) {
@@ -58,7 +58,7 @@ public class RecodedStudentClassLinkService implements RecodedStudentClassLinkSe
 		RecodedStudentClasslinks.setClassLink( classLinkData.get("class_link").toString());
 		RecodedStudentClasslinks.setClassTime(classLinkData.get("class_time").toString());
 		RecodedStudentClasslinks.setClassTitle(classLinkData.get("class_Title").toString());
-		RecodedStudentClasslinks.setRecordedStudent(recordedStudent);
+		RecodedStudentClasslinks.setRecordedStudentBatch(recordedStudent);
 		RecodedStudentClasslinks.setSubjectName(classLinkData.get("subject_Name").toString());
 		
 		RecodedStudentClassLinks addedRecodedStudentClassLinks = recodedStudentClassLinkDaoInterface.addRecodedStudentClassLinks(RecodedStudentClasslinks);
@@ -82,7 +82,7 @@ public class RecodedStudentClassLinkService implements RecodedStudentClassLinkSe
 	@Override
 	public List<Map<String, Object>> getRecodedStudentCLassLinks(String recodedStudentId) {
 		
-		RecordedStudent recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recodedStudentId);
+		RecordedStudentBatch recordedStudent = recordedStudentDaoInterface.getRecordedStudentById(recodedStudentId);
 		
 		
 		if(recordedStudent==null) {

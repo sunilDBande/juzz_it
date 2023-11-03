@@ -15,7 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class RecordedStudent {
+public class RecordedStudentBatch {
 	
 	@Id
 	@Column(name="RECORDED_STUDENT_ID")
@@ -56,15 +56,36 @@ public class RecordedStudent {
 	@JoinColumn(name="STUDENT_ENROLL_DETAILS_ID")
 	private StudentEnrollDetails studentEnrollDetails;
 	
-	@OneToMany(mappedBy = "recordedStudent",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "recordedStudentBatch",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
 	private List<RecordedStudentToken> recordedStudentToken;
 	
 	@Column(name="TEACHER_ID")
 	private String teacherId;
 
-	public RecordedStudent() {
+	public RecordedStudentBatch() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+
+	public RecordedStudentBatch(String recordedStudentId, String courseName, String courseTypeName,
+			String studentPermitionStatus, String studentPlacementStatus, String studentName, String enrollTyp,
+			String menterPermitionStatus, CourseType courseType, Student student, SalesExecutive salesExecutive,
+			StudentEnrollDetails studentEnrollDetails, List<RecordedStudentToken> recordedStudentToken,
+			String teacherId) {
+		super();
+		this.recordedStudentId = recordedStudentId;
+		this.courseName = courseName;
+		this.courseTypeName = courseTypeName;
+		this.studentPermitionStatus = studentPermitionStatus;
+		this.studentPlacementStatus = studentPlacementStatus;
+		this.studentName = studentName;
+		this.enrollTyp = enrollTyp;
+		this.menterPermitionStatus = menterPermitionStatus;
+		this.courseType = courseType;
+		this.student = student;
+		this.salesExecutive = salesExecutive;
+		this.studentEnrollDetails = studentEnrollDetails;
+		this.recordedStudentToken = recordedStudentToken;
+		this.teacherId = teacherId;
 	}
 
 	public String getRecordedStudentId() {
@@ -163,6 +184,14 @@ public class RecordedStudent {
 		this.studentEnrollDetails = studentEnrollDetails;
 	}
 
+	public List<RecordedStudentToken> getRecordedStudentToken() {
+		return recordedStudentToken;
+	}
+
+	public void setRecordedStudentToken(List<RecordedStudentToken> recordedStudentToken) {
+		this.recordedStudentToken = recordedStudentToken;
+	}
+
 	public String getTeacherId() {
 		return teacherId;
 	}
@@ -171,38 +200,17 @@ public class RecordedStudent {
 		this.teacherId = teacherId;
 	}
 
-	public RecordedStudent(String recordedStudentId, String courseName, String courseTypeName,
-			String studentPermitionStatus, String studentPlacementStatus, String studentName, String enrollTyp,
-			String menterPermitionStatus, CourseType courseType, Student student, SalesExecutive salesExecutive,
-			StudentEnrollDetails studentEnrollDetails, String teacherId) {
-		super();
-		this.recordedStudentId = recordedStudentId;
-		this.courseName = courseName;
-		this.courseTypeName = courseTypeName;
-		this.studentPermitionStatus = studentPermitionStatus;
-		this.studentPlacementStatus = studentPlacementStatus;
-		this.studentName = studentName;
-		this.enrollTyp = enrollTyp;
-		this.menterPermitionStatus = menterPermitionStatus;
-		this.courseType = courseType;
-		this.student = student;
-		this.salesExecutive = salesExecutive;
-		this.studentEnrollDetails = studentEnrollDetails;
-		this.teacherId = teacherId;
-	}
-
 	@Override
 	public String toString() {
-		return "RecordedStudent [recordedStudentId=" + recordedStudentId + ", courseName=" + courseName
+		return "RecordedStudentBatch [recordedStudentId=" + recordedStudentId + ", courseName=" + courseName
 				+ ", courseTypeName=" + courseTypeName + ", studentPermitionStatus=" + studentPermitionStatus
 				+ ", studentPlacementStatus=" + studentPlacementStatus + ", studentName=" + studentName + ", enrollTyp="
 				+ enrollTyp + ", menterPermitionStatus=" + menterPermitionStatus + ", courseType=" + courseType
 				+ ", student=" + student + ", salesExecutive=" + salesExecutive + ", studentEnrollDetails="
-				+ studentEnrollDetails + ", teacherId=" + teacherId + "]";
+				+ studentEnrollDetails + ", recordedStudentToken=" + recordedStudentToken + ", teacherId=" + teacherId
+				+ "]";
 	}
 
-	
-    
-    
+
     
 }

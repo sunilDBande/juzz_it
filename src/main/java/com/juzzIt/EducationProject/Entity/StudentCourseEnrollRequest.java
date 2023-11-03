@@ -104,11 +104,9 @@ public class StudentCourseEnrollRequest implements Serializable{
 	public StudentEnrollDetails getStudentEnrollDetails() {
 		return studentEnrollDetails;
 	}
-
 	public void setStudentEnrollDetails(StudentEnrollDetails studentEnrollDetails) {
 		this.studentEnrollDetails = studentEnrollDetails;
 	}
-
 	public StudentCourseEnrollRequest(String enrollRequestId, String studentName, String courseName,
 			String courseTypeName, String courseEnrollType, Student student, CourseType courseType,
 			StudentEnrollDetails studentEnrollDetails) {
@@ -123,15 +121,12 @@ public class StudentCourseEnrollRequest implements Serializable{
 		this.studentEnrollDetails = studentEnrollDetails;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "StudentCourseEnrollRequest [enrollRequestId=" + enrollRequestId + ", studentName=" + studentName
 				+ ", courseName=" + courseName + ", courseTypeName=" + courseTypeName + ", courseEnrollType="
 				+ courseEnrollType + ", student=" + student + ", courseType=" + courseType + ", studentEnrollDetails="
 				+ studentEnrollDetails + "]";
-	}
-
-
-    
-    
+	}    
 }

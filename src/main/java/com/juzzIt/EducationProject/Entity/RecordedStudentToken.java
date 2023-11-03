@@ -32,13 +32,12 @@ public class RecordedStudentToken {
       
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="RECORDED_STUDENT")
-    private RecordedStudent recordedStudent;
+    @JoinColumn(name="RECORDED_STUDENT_BATCH_ID")
+    private RecordedStudentBatch recordedStudentBatch;
   
 
 	@OneToMany(mappedBy = "recordedStudentToken",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
 	private List<RecordedStudentTokenMassege> recordedStudentTokenMassege;
-
 	public RecordedStudentToken() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -56,7 +55,7 @@ public class RecordedStudentToken {
 		return tokenName;
 	}
 
-	public void setTokenName(String topknName) {
+	public void setTokenName(String tokenName) {
 		this.tokenName = tokenName;
 	}
 
@@ -84,12 +83,12 @@ public class RecordedStudentToken {
 		this.createdDateTime = createdDateTime;
 	}
 
-	public RecordedStudent getRecordedStudent() {
-		return recordedStudent;
+	public RecordedStudentBatch getRecordedStudentBatch() {
+		return recordedStudentBatch;
 	}
 
-	public void setRecordedStudent(RecordedStudent recordedStudent) {
-		this.recordedStudent = recordedStudent;
+	public void setRecordedStudentBatch(RecordedStudentBatch recordedStudentBatch) {
+		this.recordedStudentBatch = recordedStudentBatch;
 	}
 
 	public List<RecordedStudentTokenMassege> getRecordedStudentTokenMassege() {
@@ -101,7 +100,7 @@ public class RecordedStudentToken {
 	}
 
 	public RecordedStudentToken(String tokenId, String tokenName, String tokenDesc, String activeStatus,
-			LocalDateTime createdDateTime, RecordedStudent recordedStudent,
+			LocalDateTime createdDateTime, RecordedStudentBatch recordedStudentBatch,
 			List<RecordedStudentTokenMassege> recordedStudentTokenMassege) {
 		super();
 		this.tokenId = tokenId;
@@ -109,15 +108,17 @@ public class RecordedStudentToken {
 		this.tokenDesc = tokenDesc;
 		this.activeStatus = activeStatus;
 		this.createdDateTime = createdDateTime;
-		this.recordedStudent = recordedStudent;
+		this.recordedStudentBatch = recordedStudentBatch;
 		this.recordedStudentTokenMassege = recordedStudentTokenMassege;
 	}
 
 	@Override
 	public String toString() {
 		return "RecordedStudentToken [tokenId=" + tokenId + ", tokenName=" + tokenName + ", tokenDesc=" + tokenDesc
-				+ ", activeStatus=" + activeStatus + ", createdDateTime=" + createdDateTime + ", recordedStudent="
-				+ recordedStudent + ", recordedStudentTokenMassege=" + recordedStudentTokenMassege + "]";
+				+ ", activeStatus=" + activeStatus + ", createdDateTime=" + createdDateTime + ", recordedStudentBatch="
+				+ recordedStudentBatch + ", recordedStudentTokenMassege=" + recordedStudentTokenMassege + "]";
 	}
+
+	
 
 }

@@ -57,4 +57,9 @@ public class StudentController {
 	public Responce deleteStudentById(@PathVariable("StudentId") String studentId) {
 		return studentService.deleteStudentById(studentId);
 	}
+	
+	
+	
+	
+	
 }

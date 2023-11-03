@@ -1,8 +1,6 @@
 package com.juzzIt.EducationProject.Entity;
 
-import java.io.Serializable;
 import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Batch implements Serializable{
+public class Batch{
   @Id
   @Column(name="BATCH_ID")
 	private String batchId;

@@ -286,4 +286,42 @@ List<HashMap<String, Object>> finalOutput = new ArrayList<HashMap<String,Object>
 		return responce;
 	}
 
+	@Override
+	public List<HashMap<String, Object>> getAllStudentEnrollBatchsByStudentId(String studentId) {
+
+		String []data= {"batch_course_student_id","student_name","enroll_type","batch_course_id","batch_cource_name" ,"course_name","batch_completion_status" ,"active_batch_course","course_type_id","course_type_name" ,"course_level"};
+		
+		
+		String query= " select batch_course_student.batch_course_student_id,batch_course_student.student_name,batch_course_student.enroll_type,batch_course.batch_course_id , batch_course.batch_cource_name , batch_course.course_name , batch_course.batch_completion_status , batch_course.active_batch_course ,course_type.course_type_id,course_type.course_type_name,course_type.course_level "
+				+ " from batch_course_student  , batch_course , course_type "
+				+ " where "
+				+ "  batch_course_student .STUDENT_ID='"+studentId+"'" 
+				+ "  and  batch_course_student.student_permition_status = 'A' "
+				+ "  and  batch_course_student.BATCH_COURSE_ID = batch_course.batch_course_id  "
+				+ "  and  batch_course.course_type_id  = course_type.course_type_id   ";
+		
+		
+		Query createNativeQuery = entityManager.createNativeQuery(query);
+		List<Object[]> resultList = createNativeQuery.getResultList();
+		
+List<HashMap<String, Object>> finalOutput = new ArrayList<HashMap<String,Object>>();
+		
+		
+		for(Object res[]:resultList) {
+			  LinkedHashMap<String, Object> lh = new LinkedHashMap<String, Object>();
+			for(int i=0; i<=res.length-1; i++) {
+				if (res[i] == null || res[i].toString().trim().isEmpty()) {
+					lh.put(data[i], "");
+				} else {
+					lh.put(data[i], res[i].toString());
+				}
+			}
+			finalOutput.add(lh);
+		}
+		System.out.println("finalOutput--> "+finalOutput);
+		
+		
+		return finalOutput;
+	}
+
 }

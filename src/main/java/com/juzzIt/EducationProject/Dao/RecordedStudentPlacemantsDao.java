@@ -5,17 +5,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.juzzIt.EducationProject.DaoInterface.RecordedStudentPlacemantsDaoInterface;
-import com.juzzIt.EducationProject.Entity.RecordedStudent;
+import com.juzzIt.EducationProject.Entity.RecordedStudentBatch;
 import com.juzzIt.EducationProject.Entity.RecordedStudentPlacemants;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Repositary.RecordedStudentPlacemantsRepository;
-import com.juzzIt.EducationProject.ServiceInterface.RecodedStudentPlacementImageServiceInterface;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -101,23 +97,21 @@ private EntityManager entityManager;
 	}
 
 	@Override
-	public List<Map<String, Object>> getRecordedStudentPlacemants(RecordedStudent recordedStudent) {
+	public List<Map<String, Object>> getRecordedStudentPlacemants(RecordedStudentBatch recordedStudentBatch) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<RecordedStudentPlacemants> createQuery = criteriaBuilder.createQuery(RecordedStudentPlacemants.class);
 		Root<RecordedStudentPlacemants> root = createQuery.from(RecordedStudentPlacemants.class);
-		Predicate predicate = criteriaBuilder.equal(root.get(""), recordedStudent);
+		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudentBatch"), recordedStudentBatch);
 		createQuery.select(root).where(predicate);
 		List<RecordedStudentPlacemants> resultList = entityManager.createQuery(createQuery).getResultList();
-	
-		List<Map<String, Object>> collect = resultList.stream().map(result->{
-			
+		
+		   List<Map<String, Object>> collect = resultList.stream().map(result->{
 			Map<String , Object> map=new LinkedHashMap<String, Object>();
 			map.put("placement_Id", result.getPlacementId());
 			map.put("placement_CompanyName", result.getCompanyName());
 			map.put("placement_ConmpanyIntruduction", result.getCompanyIntroduction());
 			map.put("apply_Link", result.getApplyLink());
-			map.put("active_status", result.getActive_Placement());		
-//			map.put("placment_image", recodedStudentPlacementImageServiceInterface.getAllPlacementImages(result.getPlacementId()));
+			map.put("active_status", result.getActive_Placement());
 			return map;
 		}).collect(Collectors.toList());
 		return collect;

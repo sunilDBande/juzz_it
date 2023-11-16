@@ -33,6 +33,7 @@ import com.juzzIt.EducationProject.ServiceInterface.CourseTypeServicesInterface;
 import com.juzzIt.EducationProject.ServiceInterface.CourseTypeToolsServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.CourseTypeVideoServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.LessonServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.ModuleImagesServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.ModuleServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.ToolImageServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.TopicServiceInterface;
@@ -98,6 +99,9 @@ private CourseTypeObjectiveServiceInterface courseTypeObjectiveServiceInterface;
 	
 	@Autowired
 	private TopicVideoServiceInterface topicVideoServiceInterface;
+	
+	@Autowired
+	private ModuleImagesServiceInterface moduleImagesServiceInterface;
 	
 	//// course categury 
 	
@@ -459,6 +463,31 @@ private CourseTypeObjectiveServiceInterface courseTypeObjectiveServiceInterface;
 	}
 	
 	
+	@GetMapping("/student/courseTypes/{courseTypeId}/models")
+	public List<Map<String, Object>> getCourseTypeModuleWithImages(@PathVariable("courseTypeId")String courseTypeId) throws Exception {
+		return moduleServiceInterface.getCourseTypeModuleWithImages(courseTypeId);
+	}
+	
+	
+	
+	////    module images	
+	@PostMapping("/module/{moduleId}/images")
+	public Responce addModuleImage( @PathVariable("moduleId")  String moduleId,@RequestBody  HashMap<String, Object> imageData) {
+		return moduleImagesServiceInterface.addModuleImage(moduleId, imageData);
+	}
+	@DeleteMapping("/module/images/{imageId}")
+	public Responce deleteModuleImage(@PathVariable("imageId")  String imageId) {
+		return moduleImagesServiceInterface.deleteModuleImage(imageId);
+	}
+	@PutMapping("/module/images/{imageId}")
+	public Responce updateModuleImageData(@PathVariable("imageId") String imageId,@RequestBody  HashMap<String, Object> imageData ) {
+		return moduleImagesServiceInterface.updateModuleImageData(imageId, imageData);
+	}
+	@GetMapping("/module/{moduleId}/images")
+	public List<Map<String, Object>> getModuleImageByModuleId(@PathVariable("moduleId") String moduleId){
+		return moduleImagesServiceInterface.getModuleImageByModuleId(moduleId);
+	}
+	
 	
 	
 	//// for lesson class
@@ -485,7 +514,10 @@ private CourseTypeObjectiveServiceInterface courseTypeObjectiveServiceInterface;
 		return lessonServiceInterface.updateLessons(lessonId, lessonData);
 	}
 	
-	
+	@GetMapping("/student/module/{moduleId}/lessons/topics")
+	public List<Map<String, Object>> getLessonTopicwithvideos(@PathVariable("moduleId")String moduleId) throws Exception{
+		return lessonServiceInterface.getLessonTopicwithvideos(moduleId);
+	}
 	
 	//// for topics class
 	

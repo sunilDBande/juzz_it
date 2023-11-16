@@ -3,6 +3,8 @@ package com.juzzIt.EducationProject.Services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,42 +23,39 @@ public class LessonServiceImplementation implements LessonServiceInterface{
 	
 	@Autowired
 	private ModuleDaoInterface moduleDaoInterface;
-	
 	@Autowired
 	private LessonDaoInterface lessonDaoInterface;
-
 	@Autowired
 	private UniqueIdGenerations uniqueIdGenerations;
-
 	@Autowired
 	private EntityDao entityDao;
 	
+	@Autowired
+	private TopicServiceImplementation topicServiceImplementation;
+	@Autowired
+	private TopicVideoService topicVideoService;
+	
 	@Override
 	public Responce addLesson(String modelId, HashMap<String, Object> lesson) throws Exception {
-		
-		
+	
 		Responce responce=new Responce();
 		try {
 		if(lesson.get("leasson_Title")==null) {
 			responce.setMassege("lesson titale is needed");
 			responce.setStatus(false);
 			return responce;
-		}
-		
-		
+		}	
 		Module module = moduleDaoInterface.getModuleByModuleId(modelId);
-		
-		
 		if(module==null) {
 			responce.setMassege("module with the given id not found");
 			responce.setStatus(false);
 			return responce;
-		}
-		
+		}	
 		Lesson newLesson=new Lesson();
 		newLesson.setModule(module);
 		newLesson.setActiveLesson("D");
 		newLesson.setLeassonTitle(lesson.get("leasson_Title").toString());
+		newLesson.setLessonOrder(0);
 		 HashMap<String, Object> data = new HashMap<String, Object>();
 			data.put("Entity_Name", "Lesson");
 			data.put("Entity_SubName", "LSSN");
@@ -73,10 +72,7 @@ public class LessonServiceImplementation implements LessonServiceInterface{
 				newLesson.setLessonId(subName + "" + count);
 			}
 			// *******
-
-	
 		Lesson addedLesson = lessonDaoInterface.addLesson(newLesson);
-		
 		if(addedLesson==null) {
 			responce.setMassege("failed to add the lesson");
 			responce.setStatus(false);
@@ -94,20 +90,46 @@ public class LessonServiceImplementation implements LessonServiceInterface{
 
 	@Override
 	public Responce deleteLesson(String lessonId) throws Exception {
-		// TODO Auto-generated method stub
 		return lessonDaoInterface.deleteLessonById(lessonId);
 	}
 
 	@Override
 	public List<Map<String, Object>> getAllLessons(String modelId) throws Exception {
-		// TODO Auto-generated method stub
 		return lessonDaoInterface.getAllLessonsByModuleId(modelId);
 	}
 
 	@Override
-	public Responce updateLessons(String lessonId, HashMap<String, Object> lessonData) throws Exception {
-		// TODO Auto-generated method stub
+	public Responce updateLessons(String lessonId, HashMap<String, Object> lessonData) throws Exception {		
 		return lessonDaoInterface.updateLessons(lessonId, lessonData);
+	}
+
+	@Override
+	public List<Map<String, Object>> getLessonTopicwithvideos(String moduleId) throws Exception {
+		List<Map<String, Object>> lessons = lessonDaoInterface.getAllLessonsByModuleId(moduleId);
+	
+		return	lessons.stream().map(result->{
+			
+			
+			try {
+				List<Map<String, Object>> allTopics = topicServiceImplementation.getAllTopics(result.get("lesson_Id").toString());
+				List<Object> collect = allTopics.stream().map(result1->{
+					List<Map<String, Object>> topicVideo = topicVideoService.getTopicVideo(result1.get("topic_id").toString());
+					result1.put("topic_videos", topicVideo);
+					return result1;
+				}).collect(Collectors.toList());
+				
+				result.put("lesson_topic", collect);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			return result;
+		}).collect(Collectors.toList());
+		
+		
+		
 	}
 	
 

@@ -9,6 +9,5 @@ public class JuzzItEducationProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JuzzItEducationProjectApplication.class, args);
 	}		
-
 }
 														

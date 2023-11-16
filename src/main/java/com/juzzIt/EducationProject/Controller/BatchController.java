@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseClassLinksServiceServicesInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCoursePlacementsServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.BatchCourseRecordedVideoSubjectImagesServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseRecordedVideoSubjectServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseStudentServiceInterface;
@@ -67,6 +68,9 @@ public class BatchController {
 	
 	@Autowired
 	private RecordedSubjectVideoServiceInterface recordedSubjectVideoServiceInterface;
+	
+	@Autowired
+	private BatchCourseRecordedVideoSubjectImagesServiceInterface batchCourseRecordedVideoSubjectImagesServiceInterface;
 	
 	
 	
@@ -223,11 +227,36 @@ public class BatchController {
 		return batchCourseRecordedVideoSubjectServiceInterface.getAllbatchCourseRecordedVideoSubjectByBatchCourseId(batchCourseId);
 	}
 	
+	@GetMapping("/student/batchCourses/{batchCourseId}/recordedVideoSubjects")
+	public List<Map<String,Object>>  getAllCourseRecidedVideoWithImages(@PathVariable("batchCourseId") String batchCourseId){
+		return batchCourseRecordedVideoSubjectServiceInterface.getAllCourseRecidedVideoWithImages(batchCourseId);
+	}
 	
 	
 	
+	///// recoded subject video Images
+		
+	@PostMapping("/recordedVideoSubjects/{subjectId}/images")
+	public Responce addRecodedSubjectImage(@PathVariable("subjectId") String SubjectId,@RequestBody  HashMap<String, Object> imageData) {
+		return batchCourseRecordedVideoSubjectImagesServiceInterface.addRecodedSubjectImage(SubjectId, imageData);
+	}
 	
+	@DeleteMapping("/recordedVideoSubjects/images/{imageId}")
+	public Responce deleteRecodedSubjectImage(@PathVariable("imageId") String imageId) {
+		return batchCourseRecordedVideoSubjectImagesServiceInterface.deleteRecodedSubjectImage(imageId);
+	}
 	
+	@PutMapping("/recordedVideoSubjects/images/{imageId}")
+	public Responce updateRecodedSubjectImage(@PathVariable("imageId") String imageId,@RequestBody HashMap<String, Object> imageData) {
+	return batchCourseRecordedVideoSubjectImagesServiceInterface.updateRecodedSubjectImage(imageId, imageData);
+	}
+	
+	@GetMapping("/recordedVideoSubjects/{subjectId}/images")
+	public List<Map<String, Object>> getAllRecodedVideoImages(@PathVariable("subjectId") String subjectId){
+		return batchCourseRecordedVideoSubjectImagesServiceInterface.getAllRecodedVideoImages(subjectId);
+	}
+	
+		
 	//// recorded subject videos
 	
 	@PostMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}/recordedVideos")
@@ -245,7 +274,7 @@ public class BatchController {
 		return recordedSubjectVideoServiceInterface.updateRecodedSubjectVideo(recordedVideoId, RecordedVideoData);
 	}
 
-@GetMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}/recordedVideos")
+    @GetMapping("/recordedVideoSubjects/{recordedVideoSubjectsId}/recordedVideos")
 	public List<Map<String, Object>> getAllRecordedSubjectVideo(@PathVariable("recordedVideoSubjectsId")String recordedVideoSubjectsId){
 		return recordedSubjectVideoServiceInterface.getAllRecordedSubjectVideo(recordedVideoSubjectsId);
 	}

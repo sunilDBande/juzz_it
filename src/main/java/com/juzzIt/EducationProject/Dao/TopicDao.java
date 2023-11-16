@@ -1,5 +1,6 @@
 package com.juzzIt.EducationProject.Dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -77,7 +78,7 @@ try {
 		
 		
 		if(lesson==null) {
-			return null;
+			return  new ArrayList<Map<String,Object>>();
 		}
 		
 		
@@ -102,7 +103,7 @@ try {
 			map.put("topic_id", result.getTopicId());
 			map.put("topic_title", result.getTopicTitle());
 			map.put("active_Topic", result.getActive_Topic());
-			
+			map.put("topic_Order", result.getTopic_Order());
 			return map;
 		}).collect(Collectors.toList());
 		}catch (Exception e) {
@@ -125,7 +126,11 @@ try {
 						topic.setTopicTitle(topicData.get("topic_title").toString());
 					}
 					
-					System.out.println(topicData);
+					if(topicData.get("topic_Order")!=null) {
+						topic.setTopic_Order((int)topicData.get("topic_title"));
+					}
+					
+					
 					
 					if(topicData.get("active_title")!=null){
 						System.out.println("topic actic 1===>"+ topic.getActive_Topic());

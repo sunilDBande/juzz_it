@@ -38,7 +38,7 @@ public class RecodedStudentClassLinkDao implements RecodedStudentClassLinkDaoDao
 		CriteriaQuery<RecodedStudentClassLinks> createQuery = criteriaBuilder.createQuery(RecodedStudentClassLinks.class);
 		Root<RecodedStudentClassLinks> root = createQuery.from(RecodedStudentClassLinks.class);
 	
-		Predicate predicate = criteriaBuilder.equal(root.get(""), classLinkId);
+		Predicate predicate = criteriaBuilder.equal(root.get("classId"), classLinkId);
 		createQuery.select(root).where(predicate);
 		List<RecodedStudentClassLinks> resultList = entityManager.createQuery(createQuery).getResultList();
 		if(resultList.isEmpty()) {

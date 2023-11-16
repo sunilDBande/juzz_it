@@ -23,7 +23,8 @@ public class Topic implements Serializable{
 	private String topicTitle;
 	@Column(name="ACTIVE_TOPIC")
 	private String active_Topic;
-	
+	@	Column(name="TOPIC_ORDER")
+	private int topic_Order;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name="LESSON_ID")
@@ -32,14 +33,6 @@ public class Topic implements Serializable{
 	public Topic() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Topic(String topicId, String topicTitle, String active_Topic, Lesson lesson) {
-		super();
-		this.topicId = topicId;
-		this.topicTitle = topicTitle;
-		this.active_Topic = active_Topic;
-		this.lesson = lesson;
 	}
 
 	public String getTopicId() {
@@ -66,6 +59,14 @@ public class Topic implements Serializable{
 		this.active_Topic = active_Topic;
 	}
 
+	public int getTopic_Order() {
+		return topic_Order;
+	}
+
+	public void setTopic_Order(int topic_Order) {
+		this.topic_Order = topic_Order;
+	}
+
 	public Lesson getLesson() {
 		return lesson;
 	}
@@ -74,10 +75,20 @@ public class Topic implements Serializable{
 		this.lesson = lesson;
 	}
 
+	public Topic(String topicId, String topicTitle, String active_Topic, int topic_Order, Lesson lesson) {
+		super();
+		this.topicId = topicId;
+		this.topicTitle = topicTitle;
+		this.active_Topic = active_Topic;
+		this.topic_Order = topic_Order;
+		this.lesson = lesson;
+	}
+
 	@Override
 	public String toString() {
 		return "Topic [topicId=" + topicId + ", topicTitle=" + topicTitle + ", active_Topic=" + active_Topic
-				+ ", lesson=" + lesson + "]";
+				+ ", topic_Order=" + topic_Order + ", lesson=" + lesson + "]";
 	}
+
 
 }

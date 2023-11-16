@@ -17,4 +17,7 @@ public interface RecordedStudentServiceInterface {
 	public Responce deleteRecordedStudentMenter(String recordedStudentId) ;
 	public List<Map<String, Object>> getRecordedStudentWithOutMenter();
 	public List<Map<String, Object>> getRecordedStudentWithMenter();
+	 public List<Map<String, Object>> getRecordedStudentBasedOnTrainerId(String trainerId);
+	  public List<Map<String, Object>> getAllEnrolledRecodedStudentBatchs(String studentId);
+	 
 }

@@ -31,8 +31,12 @@ public class BatchCourseRecordedVideoSubject {
 	private BatchCourse batchCourse;
 	
 	
-	@OneToMany(mappedBy = "batchCourseRecordedVideoSubject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "batchCourseRecordedVideoSubject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<RecordedSubjectVideo> recordedSubjectVideo;
+	
+	@OneToMany(mappedBy = "batchCourseRecordedVideoSubject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<BatchCourseRecordedVideoSubjectImages> batchCourseRecordedVideoSubjectImages;
+
 
 
 	public BatchCourseRecordedVideoSubject() {
@@ -66,7 +70,7 @@ public class BatchCourseRecordedVideoSubject {
 
 
 	public void setVideoSubjectName(String videoSubjectName) {
-		videoSubjectName = videoSubjectName;
+		this.videoSubjectName = videoSubjectName;
 	}
 
 

@@ -27,7 +27,7 @@ public class RecordedStudentTokenService implements RecordedStudentTokenServiceI
 		
 		Responce responce=new Responce();
 		if(tokenData.get("tokenName")==null||tokenData.get("tokenDesc")==null) {
-			responce.setMassege("");
+			responce.setMassege("token name and token description");
 			responce.setStatus(false);
 			return responce;
 		}

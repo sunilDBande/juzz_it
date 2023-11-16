@@ -17,7 +17,7 @@ public class CourseTypeObjective implements Serializable{
 	@Id
 	@Column(name="OBJECTIVE_ID")
 	private String objectiveId;
-	@Column(name="OBJECTIVE")
+	@Column(name="OBJECTIVE",length = 40000)
 	private String objective;
 	
 	@ManyToOne(fetch =  FetchType.LAZY)

@@ -25,6 +25,9 @@ public class Module implements Serializable{
 	@Column(name="ACTIVE")
 	private String  activeModule;
 	
+	@Column(name="MODULE_ORDER")
+	private int moduleOrder;
+	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -33,20 +36,12 @@ public class Module implements Serializable{
 	
 	@OneToMany(mappedBy = "module",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
 	private List<Lesson> lesson;
+	@OneToMany(mappedBy = "module",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+	private List<ModuleImages> moduleImages;
 
 	public Module() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Module(String moduleId, String moduleTitle, String activeModule, CourseType courseType,
-			List<Lesson> lesson) {
-		super();
-		this.moduleId = moduleId;
-		this.moduleTitle = moduleTitle;
-		this.activeModule = activeModule;
-		this.courseType = courseType;
-		this.lesson = lesson;
 	}
 
 	public String getModuleId() {
@@ -73,6 +68,14 @@ public class Module implements Serializable{
 		this.activeModule = activeModule;
 	}
 
+	public int getModuleOrder() {
+		return moduleOrder;
+	}
+
+	public void setModuleOrder(int moduleOrder) {
+		this.moduleOrder = moduleOrder;
+	}
+
 	public CourseType getCourseType() {
 		return courseType;
 	}
@@ -89,13 +92,34 @@ public class Module implements Serializable{
 		this.lesson = lesson;
 	}
 
+	public List<ModuleImages> getModuleImages() {
+		return moduleImages;
+	}
+
+	public void setModuleImages(List<ModuleImages> moduleImages) {
+		this.moduleImages = moduleImages;
+	}
+
+	public Module(String moduleId, String moduleTitle, String activeModule, int moduleOrder, CourseType courseType,
+			List<Lesson> lesson, List<ModuleImages> moduleImages) {
+		super();
+		this.moduleId = moduleId;
+		this.moduleTitle = moduleTitle;
+		this.activeModule = activeModule;
+		this.moduleOrder = moduleOrder;
+		this.courseType = courseType;
+		this.lesson = lesson;
+		this.moduleImages = moduleImages;
+	}
+
 	@Override
 	public String toString() {
 		return "Module [moduleId=" + moduleId + ", moduleTitle=" + moduleTitle + ", activeModule=" + activeModule
-				+ ", courseType=" + courseType + ", lesson=" + lesson + "]";
+				+ ", moduleOrder=" + moduleOrder + ", courseType=" + courseType + ", lesson=" + lesson
+				+ ", moduleImages=" + moduleImages + "]";
 	}
 
-
+	
 	
 	
 }

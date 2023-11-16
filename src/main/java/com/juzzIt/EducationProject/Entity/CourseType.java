@@ -69,6 +69,8 @@ public class CourseType implements Serializable{
 	
 	@OneToMany(mappedBy = "courseType",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
 	private List<CourseTypeVideo> courseTypeVideo;
+	@OneToMany(mappedBy = "courseType",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+	private List<RecordedStudentBatch> recordedStudentBatch;
 
 
 	public CourseType() {

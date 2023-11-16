@@ -44,7 +44,7 @@ public class RecodedStudentPlacementImageDao implements RecodedStudentPlacementI
 	CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 	CriteriaQuery<RecodedStudentPlacementImage> createQuery = criteriaBuilder.createQuery(RecodedStudentPlacementImage.class);
 	Root<RecodedStudentPlacementImage> root = createQuery.from(RecodedStudentPlacementImage.class);
-	Predicate predicate = criteriaBuilder.equal(root.get(""), imageId);
+	Predicate predicate = criteriaBuilder.equal(root.get("imageId"), imageId);
 	createQuery.select(root).where(predicate);
 	
 	List<RecodedStudentPlacementImage> resultList = entityManager.createQuery(createQuery).getResultList();
@@ -107,9 +107,9 @@ public class RecodedStudentPlacementImageDao implements RecodedStudentPlacementI
 		    List<RecodedStudentPlacementImage> resultList = entityManager.createQuery(createQuery).getResultList();
 		    List<Map<String, Object>> collect = resultList.stream().map(result->{
 			Map<String, Object> map=new LinkedHashMap<String, Object>();
-			map.put("", result.getImageId());
-			map.put("", result.getImageURL());
-			map.put("", result.getActiveStatus());
+			map.put("image_id", result.getImageId());
+			map.put("Image_URL", result.getImageURL());
+			map.put("image_active_Staute", result.getActiveStatus());
 			return map;
 		}).collect(Collectors.toList());
 		return collect;

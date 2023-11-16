@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,14 @@ public class PlacementImageService  implements PlacementImageServiceInterface {
 	}
 	
 	PlacementImage placementImage=new PlacementImage();
+	
+	UUID id=UUID.randomUUID();
 		
 	placementImage.setBatchCoursePlacements(batchCoursePlacement);
 	placementImage.setActiveStatus("D");
 	placementImage.setCreatedDate(LocalDateTime.now());
 	placementImage.setImageURL(placementImgaeData.get("image_URL").toString());
-	placementImage.setPalcementImageId(placementImgaeData.get("id").toString());	
+	placementImage.setPalcementImageId(id.toString());	
 	PlacementImage addedPlacementImage = placementImageDaoInterface.addNewPlacementImage(placementImage);
 	
 	if(addedPlacementImage==null) {

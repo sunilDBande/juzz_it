@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import com.juzzIt.EducationProject.Models.Responce;
 import com.juzzIt.EducationProject.Models.UniqueIdGenerations;
 import com.juzzIt.EducationProject.Repositary.StudentRepository;
 import com.juzzIt.EducationProject.ServiceInterface.BatchCourseStudentServiceInterface;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeImageServiceInterface;
 
 import jakarta.persistence.EntityManager;
 
@@ -39,6 +41,9 @@ public class BatchCourseStudentServiceImplementation  implements BatchCourseStud
 	
 	@Autowired
 	private BatchCourseStudentDaoInterface batchCourseStudentDaoInterface;
+	
+	@Autowired 
+	private CourseTypeImageServiceInterface courseTypeImageServiceInterface;
 	
 	@Autowired
 	private EntityManager entityManager;
@@ -165,7 +170,24 @@ BatchCourseStudent addStodentTobatch = batchCourseStudentDaoInterface.addStodent
 	@Override
 	public List<HashMap<String, Object>> getAllStudentEnrollBatchsByStudentId(String studentId) {
 		
-		return batchCourseStudentDaoInterface.getAllStudentEnrollBatchsByStudentId(studentId);
+		
+		List<HashMap<String, Object>> enrollBatchs = batchCourseStudentDaoInterface.getAllStudentEnrollBatchsByStudentId(studentId);
+		
+		
+		return	enrollBatchs.stream().map(result->{
+			
+			
+	
+			
+		result.put("courseType_Images", 	courseTypeImageServiceInterface.getCourseTypeImage(result.get("course_type_id").toString()));
+			
+			return result;
+			
+			
+		}).collect(Collectors.toList());
+		
+		
+//		return batchCourseStudentDaoInterface.getAllStudentEnrollBatchsByStudentId(studentId);
 	}
 
 	

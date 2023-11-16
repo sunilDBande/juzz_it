@@ -59,6 +59,7 @@ newTopicVideo.setTopic(topic);
 newTopicVideo.setTopicVideoId(id.toString());
 newTopicVideo.setActiveStatus("D");
 		
+newTopicVideo.setOrder(0);
 TopicVideo addedTopicVideo = topicVideoDaoInterface.addNewTopicVideo(newTopicVideo);
 
 if(addedTopicVideo==null) {

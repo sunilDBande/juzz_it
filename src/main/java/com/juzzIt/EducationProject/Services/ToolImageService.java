@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.juzzIt.EducationProject.DaoInterface.CourseTypeToolsDaoInterface;
@@ -40,13 +42,14 @@ public class ToolImageService  implements ToolImageServiceInterface{
 		responce.setStatus(false);
 		return responce;
 	}
+	UUID id=UUID.randomUUID();
 	
 	ToolImage toolImage=new ToolImage();
 	
 	toolImage.setCourseTypeTools(courseTypeTool);
 	toolImage.setImageURL(toolImageData.get("image_URL").toString());
 	toolImage.setCreatedDate(LocalDateTime.now());
-	toolImage.setToolImageId(toolImageData.get("id").toString());
+	toolImage.setToolImageId(id.toString());
 	toolImage.setActiveStatus("D");
 	
 	ToolImage addedToolImage = toolImageDaoInterface.addNewToolImage(toolImage);

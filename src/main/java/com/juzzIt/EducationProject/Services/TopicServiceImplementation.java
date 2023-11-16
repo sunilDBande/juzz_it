@@ -72,6 +72,7 @@ try {
 
 		newTopic.setActive_Topic("D");
 		newTopic.setTopicTitle(topic.get("topic_Title").toString());
+		newTopic.setTopic_Order(0);
 
 		Topic addedTopic = topicDaoInterface.addTopic(newTopic);
 

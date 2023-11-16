@@ -99,6 +99,9 @@ public class TopicVideoDao implements TopicVideoDaoInterface {
 		 topicVideo.setActiveStatus("D");
 	 }
  }
+ if(topicVideoData.get("video_Order")!=null) {
+	 topicVideo.setOrder((int)topicVideoData.get("video_Order"));
+ }
  
  TopicVideo UpdatedTopicVideo = topicVideoRepository.save(topicVideo);
  
@@ -133,6 +136,7 @@ return responce;
 			map.put("video_URL", result.getVideoURL());
 			map.put("active_Status", result.getActiveStatus());
 			map.put("created_Date", result.getCreatedDate());
+			map.put("video_order", result.getOrder());
 			return map;
 		}).collect(Collectors.toList());
 		return collect;

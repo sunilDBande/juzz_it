@@ -55,9 +55,12 @@ public class RecordedStudentBatch {
 	@OneToOne(cascade = CascadeType.REMOVE,  orphanRemoval = true)
 	@JoinColumn(name="STUDENT_ENROLL_DETAILS_ID")
 	private StudentEnrollDetails studentEnrollDetails;
-	
 	@OneToMany(mappedBy = "recordedStudentBatch",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
 	private List<RecordedStudentToken> recordedStudentToken;
+	@OneToMany(mappedBy = "recordedStudentBatch",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+	private List<RecordedStudentPlacemants> recordedStudentPlacemants;
+	@OneToMany(mappedBy = "recordedStudentBatch",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+	private List<RecodedStudentClassLinks> recodedStudentClassLinks;
 	
 	@Column(name="TEACHER_ID")
 	private String teacherId;

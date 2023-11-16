@@ -1,6 +1,7 @@
 package com.juzzIt.EducationProject.Services;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +54,11 @@ public class RecodedStudentClassLinkService implements RecodedStudentClassLinkSe
 		
 		
 		UUID id=UUID.randomUUID();
-		RecodedStudentClasslinks.setClassDate((LocalDateTime)classLinkData.get("class_Date") );
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		LocalDateTime classData = LocalDateTime.parse(classLinkData.get("class_Date").toString(), formatter);
+		
+		RecodedStudentClasslinks.setClassDate(classData);
 		RecodedStudentClasslinks.setClassId(id.toString());
 		RecodedStudentClasslinks.setClassLink( classLinkData.get("class_link").toString());
 		RecodedStudentClasslinks.setClassTime(classLinkData.get("class_time").toString());

@@ -106,11 +106,11 @@ public class LessonDao implements LessonDaoInterface {
 		List<Lesson> resultList = entityManager.createQuery(createQuery).getResultList();
 		
 		 collect = resultList.stream().map(result->{
-			
 			Map<String , Object> map=new LinkedHashMap<String, Object>();
 			map.put("lesson_Id", result.getLessonId());
 			map.put("lesson_Tites", result.getLeassonTitle());
 			map.put("active_lesson", result.getActiveLesson());
+			map.put("lesson_Order", result.getLessonOrder());
 			return map;
 		}).collect(Collectors.toList());
 		}catch (Exception e) {
@@ -139,6 +139,10 @@ public class LessonDao implements LessonDaoInterface {
 				}else {
 					lesson.setActiveLesson("D");
 				}
+			}
+			
+			if(lessonData.get("lesson_Order")!=null) {
+				lesson.setLessonOrder((int)lessonData.get("lesson_Order"));
 			}
 			
 			

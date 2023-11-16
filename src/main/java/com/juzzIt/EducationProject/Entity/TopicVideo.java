@@ -18,11 +18,12 @@ public class TopicVideo {
 	private String vedioHeading;
 	@Column(name="VIDEO_URL")
 	private String videoURL;
+	@Column(name="VIDEO_ORDER")
+	private int order;
 	@Column(name="CREATED_DATE")
 	private String createdDate;
 	@Column(name="ACTIVE_STATUS")
 	private String activeStatus;
-
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name="TOPIC_ID")
@@ -31,17 +32,6 @@ public class TopicVideo {
 	public TopicVideo() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public TopicVideo(String topicVideoId, String vedioHeading, String videoURL, String createdDate,
-			String activeStatus, Topic topic) {
-		super();
-		this.topicVideoId = topicVideoId;
-		this.vedioHeading = vedioHeading;
-		this.videoURL = videoURL;
-		this.createdDate = createdDate;
-		this.activeStatus = activeStatus;
-		this.topic = topic;
 	}
 
 	public String getTopicVideoId() {
@@ -66,6 +56,14 @@ public class TopicVideo {
 
 	public void setVideoURL(String videoURL) {
 		this.videoURL = videoURL;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public String getCreatedDate() {
@@ -95,7 +93,20 @@ public class TopicVideo {
 	@Override
 	public String toString() {
 		return "TopicVideo [topicVideoId=" + topicVideoId + ", vedioHeading=" + vedioHeading + ", videoURL=" + videoURL
-				+ ", createdDate=" + createdDate + ", activeStatus=" + activeStatus + ", topic=" + topic + "]";
+				+ ", order=" + order + ", createdDate=" + createdDate + ", activeStatus=" + activeStatus + ", topic="
+				+ topic + "]";
 	}
-	
+
+	public TopicVideo(String topicVideoId, String vedioHeading, String videoURL, int order, String createdDate,
+			String activeStatus, Topic topic) {
+		super();
+		this.topicVideoId = topicVideoId;
+		this.vedioHeading = vedioHeading;
+		this.videoURL = videoURL;
+		this.order = order;
+		this.createdDate = createdDate;
+		this.activeStatus = activeStatus;
+		this.topic = topic;
+	}
+
 }

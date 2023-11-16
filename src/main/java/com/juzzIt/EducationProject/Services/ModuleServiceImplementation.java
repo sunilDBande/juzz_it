@@ -3,6 +3,8 @@ package com.juzzIt.EducationProject.Services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,17 @@ public class ModuleServiceImplementation implements ModuleServiceInterface{
 	
 	  @Autowired
 		private UniqueIdGenerations uniqueIdGenerations;
+	  
+	  @Autowired
+	  private LessonServiceImplementation lessonServiceImplementation;
 
+	  @Autowired
+	  private TopicServiceImplementation topicServiceImplementation;
+	  
+	  @Autowired
+	  private ModuleImagesService ModuleImagesService;
+	  
+	  
 		@Autowired
 		private EntityDao entityDao;
 	
@@ -37,7 +49,8 @@ Responce responce=new Responce();
 		
 		try {
 		if(model.get("module_Title")==null) {
-			responce.setMassege("module Title is needed");
+			
+			responce.setMassege("module Title or order is needed");
 			responce.setStatus(false);
 			return null;
 		}
@@ -55,6 +68,7 @@ Responce responce=new Responce();
 		newModel.setCourseType(courseType);
 		newModel.setActiveModule("D");
 		newModel.setModuleTitle(model.get("module_Title").toString());
+		newModel.setModuleOrder(0);
 		
 		 HashMap<String, Object> data = new HashMap<String, Object>();
 			data.put("Entity_Name", "Module");
@@ -112,6 +126,21 @@ Responce responce=new Responce();
 		// TODO Auto-generated method stub
 		return moduleDaoInterface.updateModule(ModuleId, module);
 	}
+
+
+	@Override
+	public List<Map<String, Object>> getCourseTypeModuleWithImages(String courseTypeId) throws Exception {
+		 List<Map<String, Object>> allModels = moduleDaoInterface.getAllModels(courseTypeId);
 	
+		 return	 allModels.stream().map(result->{
+			 List<Map<String, Object>> moduleImage = ModuleImagesService.getModuleImageByModuleId(result.get("module_Id").toString());
+			 result.put("module_image", moduleImage);
+			 return result;
+		 }).collect(Collectors.toList());
+		 
+		
+	}
+
+
 
 }

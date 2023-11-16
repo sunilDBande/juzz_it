@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,14 @@ public class RecordedSubjectVideoService  implements RecordedSubjectVideoService
 		}
 		
 		RecordedSubjectVideo recordedSubjectVideo=new RecordedSubjectVideo();
+		UUID id=UUID.randomUUID();
+		
 		
 		recordedSubjectVideo.setActiveStatus("D");
 		recordedSubjectVideo.setBatchCourseRecordedVideoSubject(batchCourseRecordedVideoSubject);
 		recordedSubjectVideo.setCreatedDate(LocalDateTime.now());
 		recordedSubjectVideo.setVedioTopic(recordedVideoData.get("vedio_Topic").toString());
-		recordedSubjectVideo.setRecordedVideoId(recordedVideoData.get("id").toString());
+		recordedSubjectVideo.setRecordedVideoId(id.toString());
 		recordedSubjectVideo.setVideoDesc(recordedVideoData.get("video_Desc").toString());
 		recordedSubjectVideo.setVideoURL(recordedVideoData.get("video_URL").toString());		
 		

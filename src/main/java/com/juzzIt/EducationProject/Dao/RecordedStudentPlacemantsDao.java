@@ -42,7 +42,7 @@ private EntityManager entityManager;
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<RecordedStudentPlacemants> createQuery = criteriaBuilder.createQuery(RecordedStudentPlacemants.class);
 		Root<RecordedStudentPlacemants> root = createQuery.from(RecordedStudentPlacemants.class);
-		Predicate predicate = criteriaBuilder.equal(root.get(""), recordedStudentPlacemantsId);
+		Predicate predicate = criteriaBuilder.equal(root.get("placementId"), recordedStudentPlacemantsId);
 		createQuery.select(root).where(predicate);
 		List<RecordedStudentPlacemants> resultList = entityManager.createQuery(createQuery).getResultList();
 		if(resultList.isEmpty()) {
@@ -104,7 +104,7 @@ private EntityManager entityManager;
 		Predicate predicate = criteriaBuilder.equal(root.get("recordedStudentBatch"), recordedStudentBatch);
 		createQuery.select(root).where(predicate);
 		List<RecordedStudentPlacemants> resultList = entityManager.createQuery(createQuery).getResultList();
-		
+
 		   List<Map<String, Object>> collect = resultList.stream().map(result->{
 			Map<String , Object> map=new LinkedHashMap<String, Object>();
 			map.put("placement_Id", result.getPlacementId());

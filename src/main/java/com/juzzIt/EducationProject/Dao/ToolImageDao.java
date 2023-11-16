@@ -81,11 +81,11 @@ public class ToolImageDao  implements ToolImageDaoInterface{
 			
 		}else {
 			
-			if(toolImageData.get("image_URL")==null) {
+			if(toolImageData.get("image_URL")!=null) {
 				toolImage.setImageURL(toolImageData.get("image_URL").toString());
 			}
 			
-	if(toolImageData.get("active_status")==null) {
+	if(toolImageData.get("active_status")!=null) {
 				
 		
 if(toolImage.getActiveStatus().equalsIgnoreCase("D")) {

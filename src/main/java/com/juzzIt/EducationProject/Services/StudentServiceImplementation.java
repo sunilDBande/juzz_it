@@ -150,9 +150,16 @@ public class StudentServiceImplementation implements StudentServiceInterface{
 	
 	@Override
 	public Student getStudentById(String studentId) {
-		System.out.println(studentRepo.findById(studentId));
-		
-		return studentRepo.findById(studentId).get();
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Student> createQuery = criteriaBuilder.createQuery(Student.class);
+		Root<Student> root = createQuery.from(Student.class);
+		Predicate predicate = criteriaBuilder.equal(root.get("studentId"), studentId);
+		createQuery.select(root).where(predicate);
+		List<Student> resultList = entityManager.createQuery(createQuery).getResultList();
+		if(resultList.isEmpty()) {
+			return null;
+		}
+		return resultList.get(0);
 	}
 
 	@Override

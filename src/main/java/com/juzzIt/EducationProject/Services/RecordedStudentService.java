@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import com.juzzIt.EducationProject.Entity.Student;
 import com.juzzIt.EducationProject.Entity.StudentEnrollDetails;
 import com.juzzIt.EducationProject.Entity.Teacher;
 import com.juzzIt.EducationProject.Models.Responce;
+import com.juzzIt.EducationProject.ServiceInterface.CourseTypeImageServiceInterface;
 import com.juzzIt.EducationProject.ServiceInterface.RecordedStudentServiceInterface;
 
 
@@ -51,6 +53,10 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 	
 	@Autowired
 	private SalesExecutiveDaoInterface salesExecutiveDaoInterface;
+	
+	
+	@Autowired
+	private CourseTypeImageServiceInterface courseTypeImageServiceInterface;
 	
 	
 	@Override
@@ -170,4 +176,31 @@ public class RecordedStudentService implements RecordedStudentServiceInterface {
 		return recordedStudentDaoInterface.getRecordedStudentWithMenter();
 	}
 
+	@Override
+	public List<Map<String, Object>> getRecordedStudentBasedOnTrainerId(String trainerId) {
+		System.out.println(trainerId);
+		return recordedStudentDaoInterface.getAllRecodedBatchsByTrainerId(trainerId);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllEnrolledRecodedStudentBatchs(String studentId) {
+		
+		Student student = studentDaoInterface.getStudentById(studentId);		
+		List<Map<String, Object>> batchs = recordedStudentDaoInterface.getAllRecodedBatchsByStudentId(student);
+		
+		return 	batchs.stream().map(result->{	
+		HashMap<String, Object> courseType = recordedStudentDaoInterface.getCourseTypeDataByRecodedStudentBatchId(	result.get("RECORDED_STUDENT_BATCH_ID").toString());
+		courseType.put("CourseType_Image", courseTypeImageServiceInterface.getCourseTypeImage(courseType.get("course_type_id").toString()));
+		result.put("courseType_Data", courseType);
+			return result;
+		}).collect(Collectors.toList());
+		
+		
+		
+		
+	}
+
+	
+	
+	
 }

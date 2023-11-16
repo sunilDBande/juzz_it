@@ -89,15 +89,11 @@ public class ModuleDao implements ModuleDaoInterface{
 	public List<Map<String, Object>> getAllModels(String courseTypeId) throws Exception {
 		List<Map<String, Object>> collect = null;
 		try {
-		
 		CourseType courseType = courseTypeDaoInterface.getCourseTypeById(courseTypeId);
-
 		if(courseType==null) {
 			return null;
 		}
-		
 CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
 CriteriaQuery<Module> createQuery = criteriaBuilder.createQuery(Module.class);		
 Root<Module> root = createQuery.from(Module.class);
 
@@ -113,6 +109,7 @@ List<Module> resultList = entityManager.createQuery(createQuery).getResultList()
 	map.put("module_Id", result.getModuleId());
 	map.put("module_Title", result.getModuleTitle());
 	map.put("active_Module", result.getActiveModule());
+	map.put("module_order", result.getModuleOrder());
 	return map;
 }).collect(Collectors.toList());
 		}catch (Exception e) {
@@ -166,6 +163,12 @@ CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 					model.setActiveModule("D");
 				}
 			}
+			
+			
+			if(module.get("module_Order")!=null) {
+				model.setModuleOrder((int)module.get("module_Order"));
+			}
+			
 	
 			Module updatedModule = moduleRepository.save(model);
 			if(updatedModule==null) {
@@ -184,7 +187,7 @@ CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             responce.setMassege("module with the given id not found");
 		}
 		}catch (Exception e) {
-			throw new Exception("Getting problem while updating Module");
+
 		}
 		return responce;
 	}

@@ -92,9 +92,9 @@ public class BlogsService implements BlogsServiceInterface {
 		}
 		HashMap<String, Object> map=new HashMap<String,Object>();
 		map.put("blog_Id", blogs.getBlogId());
-		map.put("blog_heading", blogs.getBlogDesc());
-		map.put("blog_Intruduction", blogs.getBlogHeading());
-		map.put("blog_desc", blogs.getBlogIntruduction());
+		map.put("blog_heading", blogs.getBlogHeading());
+		map.put("blog_Intruduction", blogs.getBlogIntruduction());
+		map.put("blog_desc", blogs.getBlogDesc());
 		map.put("blog_Image",blogImagesServiceInterface.getBlogImages(blogs.getBlogId()));
 		map.put("blog_Details",blogsDetailsServiceInterface.getAllBlogDetails(blogs.getBlogId()));
 			allBloges.add(map);

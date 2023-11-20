@@ -32,8 +32,11 @@ public class CourseTypeTools implements Serializable{
 	private CourseType courseType;
 	
 	
-	@OneToMany(mappedBy = "CourseTypeTools",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-	private List<ToolImage> toolImage;
+//	@OneToMany(mappedBy = "CourseTypeTools",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+//	private List<ToolImage> toolImage;
+
+	@OneToMany(mappedBy = "CourseTypeTools",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
+	private List<ToolImage>  toolImage;
 
 
 	public CourseTypeTools() {

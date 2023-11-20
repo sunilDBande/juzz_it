@@ -1,7 +1,9 @@
 package com.juzzIt.EducationProject.Services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -257,5 +259,25 @@ public class StudentServiceImplementation implements StudentServiceInterface{
 	public Student getStudentByEmail(String email) {
 		// TODO Auto-generated method stub
 		return studentDaoInterface.getStudentByEmail(email);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getStudentDetails(String studentId) {
+		
+		Student student = studentDaoInterface.getStudentById(studentId);
+		if(student==null) {
+			return new ArrayList<Map<String ,Object>>();
+		}
+		List<Map<String, Object>> list=new ArrayList<Map<String ,Object>>();
+		Map<String, Object> map=new LinkedHashMap<String,Object>();
+		map.put("student_Id", student.getStudentId());
+		map.put("student_name", student.getStudentName());
+		map.put("student_email", student.getStudentEmail());
+		map.put("student_address", student.getStudentAddress());
+		map.put("created_Data", student.getCreatedDate());
+		map.put("mobile_Number", student.getStudentMobileNumber());	
+		list.add(map);
+		return list;
 	}
 }

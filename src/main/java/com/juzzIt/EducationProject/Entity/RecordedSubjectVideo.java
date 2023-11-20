@@ -29,9 +29,8 @@ public class RecordedSubjectVideo {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="RECORDED_VIDEO_SUBJECT_ID")
-	@JsonIgnore
-     private BatchCourseRecordedVideoSubject batchCourseRecordedVideoSubject;
+	@JoinColumn(name="BATCH_COURSE_RECORDED_VIDEO_SUBJECT_ID")
+	private BatchCourseRecordedVideoSubject batchCourseRecordedVideoSubject;
 
 
 	public RecordedSubjectVideo() {

@@ -28,9 +28,11 @@ public class ToolImage {
 	@Column(name="ACTIVE_STATUS")
 	private String activeStatus;
 	
+
+	
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name="COURSE_TYPE_TOOL_ID")
+	@JoinColumn(name = "COURSE_TYPE_TOOL_ID")
 	private CourseTypeTools CourseTypeTools;
 
 	public ToolImage() {

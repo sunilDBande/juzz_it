@@ -59,7 +59,9 @@ public class StudentController {
 	}
 	
 	
-	
-	
+	@GetMapping("/student/{studentId}/profile")
+	public List<Map<String, Object>> getStudentDetails(@PathVariable("studentId") String studentId){
+		return studentService.getStudentDetails(studentId);
+	}
 	
 }

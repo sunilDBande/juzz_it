@@ -23,5 +23,6 @@ public interface StudentServiceInterface {
 	public Responce updateStudentAfterEnroll(String studentId);
 	public Responce deleteStudentById(String studentId);
 	public Student getStudentByEmail(String email);
+	public List<Map<String, Object>> getStudentDetails( String studentId);
 	
 }
